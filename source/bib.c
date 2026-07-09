@@ -74,6 +74,7 @@ void listarModalidades(Modalidades *d) {
     printf("\n====MODALIDADES====\n");
     while (atual != NULL) {
         printf("\n%s\n", atual->nome);
+        atual = atual->prox;
     }
     printf("\n===================\n");
 }
@@ -107,4 +108,29 @@ int removerModalidade(Modalidades *d, char *nome) {
     d->quantidade--;
 
     return 0; // removido com sucesso
+}
+
+
+void altNomeModalidade(Modalidades *d, char *nomeAnt, char *nomeNovo) {
+    if (d->quantidade == 0) {
+        printf("\nLista vazia\n");
+    }
+    NoModalidades *atual = d->inicio;
+    int k = 0;
+
+    while (atual != NULL) {
+        if (strcmp(atual->nome, nomeAnt) == 0) {
+            k = 1;
+            break;
+        } else {
+            atual = atual->prox;
+        }
+    }
+
+    if (k) {
+        strcpy(atual->nome, nomeNovo);
+        printf("\nNome alterado!\n");
+    } else {
+        printf("\nModalidade n�o encontrada!\n");
+    }
 }
