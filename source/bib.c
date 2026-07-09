@@ -140,7 +140,7 @@ void buscarModalidade(Modalidades *d, char *nome) {
     setlocale(LC_ALL, "");
     NoModalidades *atual = d->inicio;
 
-    if (d->quantidade == 0) printf("Não há elementos na lista.\n");
+    if (d->quantidade == 0) printf("Nï¿½o hï¿½ elementos na lista.\n");
     else {
         while (atual != NULL) {
             if(strcmp(nome, atual->nome)) {
@@ -150,4 +150,32 @@ void buscarModalidade(Modalidades *d, char *nome) {
             atual = atual->prox;
         }
     }
+}
+
+
+int carregarModalidadesArquivo(Modalidades *d, char *nomeArquivo) {
+    FILE *arquivo;
+    char nome[50];
+
+    if (d == NULL) {
+        return 1; // lista invalida
+    }
+
+    arquivo = fopen(nomeArquivo, "r");
+
+    if (arquivo == NULL) {
+        return 2; // erro ao abrir arquivo
+    }
+
+    while (fgets(nome, 50, arquivo) != NULL) {
+        nome[strcspn(nome, "\n")] = '\0';
+
+        if (strlen(nome) > 0) {
+            inserirModalidade(d, nome);
+        }
+    }
+
+    fclose(arquivo);
+
+    return 0; // sucesso
 }
