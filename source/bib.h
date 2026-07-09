@@ -8,9 +8,6 @@ void inicializarListaP(Modalidades **d);
 int inserirModalidade(Modalidades *d, char *nome);
 int quantModalidades(Modalidades *d);
 void listarModalidades(Modalidades *d);
-<<<<<<< HEAD
 int removerModalidade(Modalidades *d, char *nome);
-=======
 void antNomeModalidade(Modalidades *d, char *nomeAnt, char *nomeNovo);
->>>>>>> 6ec2b5aac9d9aa58f982d0fb0c292ce10d8e4084
 #endif
