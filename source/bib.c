@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "bib.h"
-#include <locale.h>
 
 struct modalidades {
     struct noModalidades *inicio;
@@ -111,7 +110,6 @@ int removerModalidade(Modalidades *d, char *nome) {
     return 0; // removido com sucesso
 }
 
-
 void altNomeModalidade(Modalidades *d, char *nomeAnt, char *nomeNovo) {
     if (d->quantidade == 0) {
         printf("\nLista vazia\n");
@@ -132,12 +130,11 @@ void altNomeModalidade(Modalidades *d, char *nomeAnt, char *nomeNovo) {
         strcpy(atual->nome, nomeNovo);
         printf("\nNome alterado!\n");
     } else {
-        printf("\nModalidade n�o encontrada!\n");
+        printf("\nModalidade inexistente!\n");
     }
 }
 
 void buscarModalidade(Modalidades *d, char *nome) {
-    setlocale(LC_ALL, "");
     NoModalidades *atual = d->inicio;
 
     if (d->quantidade == 0) printf("N�o h� elementos na lista.\n");
