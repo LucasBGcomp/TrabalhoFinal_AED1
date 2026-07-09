@@ -5,13 +5,11 @@
 
 struct modalidades {
     struct noModalidades *inicio;
-    struct noModalidades *fim;
     int quantidade;
 };
 
 struct equipes {
     struct noEquipes *inicio;
-    struct noEquipes *fim;
     int quantidade;
 };
 
@@ -28,3 +26,54 @@ struct noEquipes {
     struct noEquipes *prox;
     struct noEquipes *ant;
 };
+
+void inicializarListaP(Modalidades **d) {
+    *d = (Modalidades *) malloc(sizeof(Modalidades));
+    if (*d == NULL) return;
+    (*d)->inicio = NULL;
+    (*d)->quantidade = 0;
+}
+
+int criarNoModalidades(NoModalidades **novo) {
+    *novo = (NoModalidades *) malloc(sizeof(NoModalidades));
+    if (*novo == NULL) return 1; // falha na alocação
+
+    (*novo)->prox = NULL;
+    (*novo)->ant = NULL;
+    return 0; // Sucesso
+}
+
+int inserirModalidade(Modalidades *d, char *nome) {
+    NoModalidades *novo;
+    if (criarNoModalidades(&novo)) return 1; //falha
+
+    strcpy(novo->nome, nome);
+
+    if (d->quantidade == 0) {
+        d->inicio = novo;
+    } else {
+        novo->prox = d->inicio;
+        d->inicio->ant = novo;
+        d->inicio = novo;
+    }
+    d->quantidade++;
+    return 0; //sucesso
+}
+
+int quantModalidades(Modalidades *d) {
+    return d->quantidade;
+}
+
+void listarModalidades(Modalidades *d) {
+    if (d->quantidade == 0) {
+        printf("\nLista vazia\n");
+    }
+
+    NoModalidades *atual = d->inicio;
+
+    printf("\n====MODALIDADES====\n");
+    while (atual != NULL) {
+        printf("\n%s\n", atual->nome);
+    }
+    printf("\n===================\n");
+}
