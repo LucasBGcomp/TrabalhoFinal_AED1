@@ -8,4 +8,5 @@ void inicializarListaP(Modalidades **d);
 int inserirModalidade(Modalidades *d, char *nome);
 int quantModalidades(Modalidades *d);
 void listarModalidades(Modalidades *d);
+void antNomeModalidade(Modalidades *d, char *nomeAnt, char *nomeNovo);
 #endif
