@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "bib.h"
+#include <locale.h>
 
 struct modalidades {
     struct noModalidades *inicio;
@@ -132,5 +133,21 @@ void altNomeModalidade(Modalidades *d, char *nomeAnt, char *nomeNovo) {
         printf("\nNome alterado!\n");
     } else {
         printf("\nModalidade nï¿½o encontrada!\n");
+    }
+}
+
+void buscarModalidade(Modalidades *d, char *nome) {
+    setlocale(LC_ALL, "");
+    NoModalidades *atual = d->inicio;
+
+    if (d->quantidade == 0) printf("Não há elementos na lista.\n");
+    else {
+        while (atual != NULL) {
+            if(strcmp(nome, atual->nome)) {
+                printf("Modalidade %s: ", nome);
+                //LISTAR AQUI AS EQUIPES DESTA MODALIDADE!
+            }
+            atual = atual->prox;
+        }
     }
 }
