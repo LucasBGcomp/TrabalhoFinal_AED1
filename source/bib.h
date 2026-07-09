@@ -10,4 +10,5 @@ int quantModalidades(Modalidades *d);
 void listarModalidades(Modalidades *d);
 int removerModalidade(Modalidades *d, char *nome);
 void antNomeModalidade(Modalidades *d, char *nomeAnt, char *nomeNovo);
+void buscarModalidade(Modalidades *d, char *nome);
 #endif

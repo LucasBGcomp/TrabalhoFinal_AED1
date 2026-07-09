@@ -110,7 +110,6 @@ int removerModalidade(Modalidades *d, char *nome) {
     return 0; // removido com sucesso
 }
 
-
 void altNomeModalidade(Modalidades *d, char *nomeAnt, char *nomeNovo) {
     if (d->quantidade == 0) {
         printf("\nLista vazia\n");
@@ -131,6 +130,21 @@ void altNomeModalidade(Modalidades *d, char *nomeAnt, char *nomeNovo) {
         strcpy(atual->nome, nomeNovo);
         printf("\nNome alterado!\n");
     } else {
-        printf("\nModalidade nï¿½o encontrada!\n");
+        printf("\nModalidade inexistente!\n");
+    }
+}
+
+void buscarModalidade(Modalidades *d, char *nome) {
+    NoModalidades *atual = d->inicio;
+
+    if (d->quantidade == 0) printf("Não há elementos na lista.\n");
+    else {
+        while (atual != NULL) {
+            if(strcmp(nome, atual->nome)) {
+                printf("Modalidade %s: ", nome);
+                //LISTAR AQUI AS EQUIPES DESTA MODALIDADE!
+            }
+            atual = atual->prox;
+        }
     }
 }
