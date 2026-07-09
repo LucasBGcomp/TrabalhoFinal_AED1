@@ -36,7 +36,7 @@ void inicializarListaP(Modalidades **d) {
 
 int criarNoModalidades(NoModalidades **novo) {
     *novo = (NoModalidades *) malloc(sizeof(NoModalidades));
-    if (*novo == NULL) return 1; // falha na alocação
+    if (*novo == NULL) return 1; // falha na alocaï¿½ï¿½o
 
     (*novo)->prox = NULL;
     (*novo)->ant = NULL;
@@ -76,4 +76,35 @@ void listarModalidades(Modalidades *d) {
         printf("\n%s\n", atual->nome);
     }
     printf("\n===================\n");
+}
+
+int removerModalidade(Modalidades *d, char *nome) {
+    if (d == NULL || d->inicio == NULL) {
+        return 1; // lista vazia
+    }
+
+    NoModalidades *atual = d->inicio;
+
+    while (atual != NULL && strcmp(atual->nome, nome) != 0) {
+        atual = atual->prox;
+    }
+
+    if (atual == NULL) {
+        return 1; // modalidade nao encontrada
+    }
+
+    if (atual->ant == NULL) {
+        d->inicio = atual->prox;
+    } else {
+        atual->ant->prox = atual->prox;
+    }
+
+    if (atual->prox != NULL) {
+        atual->prox->ant = atual->ant;
+    }
+
+    free(atual);
+    d->quantidade--;
+
+    return 0; // removido com sucesso
 }
