@@ -26,7 +26,7 @@ struct noEquipes
     struct noEquipes *prox;
     struct noEquipes *ant;
 };
-                                                                    //funcoes lista principal
+
 void inicializarListaP(Modalidades **d)
 {
     *d = (Modalidades *)malloc(sizeof(Modalidades));
@@ -40,12 +40,12 @@ int criarNoModalidades(NoModalidades **novo)
 {
     *novo = (NoModalidades *)malloc(sizeof(NoModalidades));
     if (*novo == NULL)
-        return 1; // falha na alocaï¿½ï¿½o
+        return 1; // falha na alocacao
 
     (*novo)->prox = NULL;
     (*novo)->ant = NULL;
-    (*novo)->inicio = NULL; //Já inicializa a lista vazia das equipes desta modalidade
-    return 0; // Sucesso
+    (*novo)->inicio = NULL; // Já inicializa a lista vazia das equipes desta modalidade
+    return 0;               // Sucesso
 }
 
 int inserirModalidade(Modalidades *d, char *nome)
@@ -132,11 +132,11 @@ int removerModalidade(Modalidades *d, char *nome)
     return 0; // removido com sucesso
 }
 
-int altNomeModalidade(Modalidades *d, char *nomeAnt, char *nomeNovo)
+void altNomeModalidade(Modalidades *d, char *nomeAnt, char *nomeNovo)
 {
     if (d->quantidade == 0)
     {
-        return 1; // Lista vazia
+        printf("\nLista vazia.\n");
     }
     NoModalidades *atual = d->inicio;
     int k = 0;
@@ -157,31 +157,85 @@ int altNomeModalidade(Modalidades *d, char *nomeAnt, char *nomeNovo)
     if (k)
     {
         strcpy(atual->nome, nomeNovo);
-        return 0; // Nome alterado com sucesso 
+        printf("\nNome alterado!\n");
     }
     else
     {
-        return -1; // Modalidade inexistente
+        printf("\nModalidade inexistente.\n");
     }
 }
 
 void buscarModalidade(Modalidades *d, char *nome)
 {
-    if (d->quantidade == 0) printf("\nLista vazia.\n");
+    if (d->quantidade == 0)
+        printf("\nLista vazia.\n");
 
     NoModalidades *atual = d->inicio;
     while (atual != NULL)
     {
         if (strcmp(nome, atual->nome) == 0)
         {
-            printf("\nModalidade %s:\n", nome);
-                // LISTAR AQUI AS EQUIPES DESTA MODALIDADE!
+            printf("\nModalidade encontrada!\n");
+            return;
         }
         atual = atual->prox;
     }
-
+    printf("\nModalidade inexistente.\n");
 }
-                                                           //funções da lista secundária
+
+int criarNoEquipes(NoEquipes **novo)
+{
+    *novo = (NoEquipes *)malloc(sizeof(NoEquipes));
+    if (*novo == NULL)
+        return 1; // falha na alocacao
+
+    (*novo)->prox = NULL;
+    (*novo)->ant = NULL;
+    return 0; // Sucesso
+}
+
+int inserirEquipe(NoEquipes *no, char *modal, Modalidades *d)
+{
+    NoEquipes *novo;
+    if (criarNoEquipes(&novo))
+        return 1; // falha
+
+    novo->ano = no->ano;
+    novo->titulos = no->titulos;
+    strcpy(novo->nome, no->nome);
+    strcpy(novo->cidade, no->cidade);
+
+    NoModalidades *atual = d->inicio;
+    if (d->quantidade != 0)
+    {
+        while (atual != NULL)
+        {
+            if (strcmp(modal, atual->nome) == 0)
+            {
+                if (atual->quantidade == 0)
+                {
+                    atual->inicio = novo;
+                }
+                else
+                {
+                    novo->prox = atual->inicio;
+                    novo->prox->ant = novo;
+                    atual->inicio = novo;
+                }
+            }
+            else
+            {
+                atual = atual->prox;
+            }
+        }
+    }
+    else
+    {
+        return -1; // lista vazia
+    }
+    atual->quantidade++;
+    return 0; // sucesso
+}
 
 int carregarModalidadesArquivo(Modalidades *d, char *nomeArquivo)
 {
@@ -215,80 +269,10 @@ int carregarModalidadesArquivo(Modalidades *d, char *nomeArquivo)
     return 0; // sucesso
 }
 
-                                                           // funções da lista secundaria
-
-int criarNoEquipes(NoEquipes **novo) {
-    *novo = (NoEquipes *) malloc(sizeof(NoEquipes));
-    if (*novo == NULL) return 1; // falha na alocacao
-
-    (*novo)->prox = NULL;
-    (*novo)->ant = NULL;
-    return 0; // Sucesso
-}
-
-int inserirEquipe(NoEquipes *no, char *modal, Modalidades *d) {
-    NoEquipes *novo;
-    if (criarNoEquipes(&novo)) return 1; //falha
-
-    novo->ano = no->ano;
-    novo->titulos = no->titulos;
-    strcpy(novo->nome, no->nome);
-    strcpy(novo->cidade, no->cidade);
-
-    NoModalidades *atual = d->inicio;
-    if (d->quantidade != 0) {
-        while(atual != NULL) {
-            if (strcmp(modal, atual->nome) == 0) {
-                if (atual->quantidade == 0) {
-                    atual->inicio = novo;
-                }
-                else {
-                    novo->prox = atual->inicio;
-                    novo->prox->ant = novo;
-                    atual->inicio = novo;
-                }
-            }
-            else {
-                atual = atual->prox;
-            }
-        }
-    }
-    else {
-        return -1; //lista vazia
-    }
-    atual->quantidade++;
-    return 0; //sucesso
-}
-
-int carregarModalidadesArquivo(Modalidades *d, char *nomeArquivo) {
-    FILE *arquivo;
-    char nome[50];
-
-    if (d == NULL) {
-        return 1; // lista invalida
-    }
-
-    arquivo = fopen(nomeArquivo, "r");
-
-    if (arquivo == NULL) {
-        return 2; // erro ao abrir arquivo
-    }
-
-    while (fgets(nome, 50, arquivo) != NULL) {
-        nome[strcspn(nome, "\n")] = '\0';
-
-        if (strlen(nome) > 0) {
-            inserirModalidade(d, nome);
-        }
-    }
-
-    fclose(arquivo);
-
-    return 0; // sucesso
-}
-
-int quantEquipes(Modalidades *d, char *nomeMod) {
-    if (d->quantidade == 0) return 1; // Lista vazia
+int quantEquipes(Modalidades *d, char *nomeMod)
+{
+    if (d->quantidade == 0)
+        return 1; // Lista vazia
 
     NoModalidades *atual = d->inicio;
     int k = 0;
@@ -315,23 +299,32 @@ int quantEquipes(Modalidades *d, char *nomeMod) {
     }
 }
 
-int removerEquipe(Modalidades *d, char *nomeEq, char *nomeMod) {
-    if (d->quantidade == 0) return 1; // Lista vazia
+void removerEquipe(Modalidades *d, char *nomeEq, char *nomeMod)
+{
+    if (d->quantidade == 0)
+        printf("\nLista vazia.\n");
 
     NoModalidades *atual = d->inicio;
-    while (atual != NULL && strcmp(atual->nome, nomeMod) != 0) {
+    while (atual != NULL && strcmp(atual->nome, nomeMod) != 0)
+    {
         atual = atual->prox;
     }
 
-    if (atual == NULL) {
-        return -1; // Modalidade inexistente
-    } else {
-        if (atual->quantidade == 0) return 2; // Modalidade vazia
+    if (atual == NULL)
+    {
+        printf("Modalidade inexistente.");
+    }
+    else
+    {
+        if (atual->quantidade == 0)
+            printf("\nSem equipes nessa modalidade.\n");
         NoEquipes *atualEQ = atual->inicio;
-        while (atualEQ != NULL && strcmp(atualEQ->nome, nomeEq) != 0) {
+        while (atualEQ != NULL && strcmp(atualEQ->nome, nomeEq) != 0)
+        {
             atualEQ = atualEQ->prox;
         }
-        if (atualEQ == NULL) return 3; // Equipe inexistente
+        if (atualEQ == NULL)
+            printf("\nEquipe inexistente.\n");
 
         if (atualEQ->ant == NULL)
         {
@@ -350,31 +343,40 @@ int removerEquipe(Modalidades *d, char *nomeEq, char *nomeMod) {
         free(atualEQ);
         atual->quantidade--;
 
-        return 0; // removido com sucesso
+        printf("\nEquipe removida com sucesso.\n");
     }
 }
 
-void listarEquipes(Modalidades *d, char *nome) {
+void listarEquipes(Modalidades *d, char *nome)
+{
     setlocale(LC_ALL, "");
     NoModalidades *atual = d->inicio;
     int i = 1;
 
-    if(d->quantidade != 0) {
-        while (atual != NULL) {
-            if (strcmp(atual->nome, nome)) {
-                if(atual->quantidade != 0) {
+    if (d->quantidade != 0)
+    {
+        while (atual != NULL)
+        {
+            if (strcmp(atual->nome, nome))
+            {
+                if (atual->quantidade != 0)
+                {
                     NoEquipes *atual2 = atual->inicio;
-                    while(atual2 != NULL) {
-                        printf("\nEquipe %d: %s.", atual2->nome);
+                    while (atual2 != NULL)
+                    {
+                        printf("\nEquipe %d: %s.", i, atual2->nome);
                         i++;
                         atual2 = atual2->prox;
                     }
                 }
-                else printf("\nNão há equipes nesta modalidade.");
+                else
+                    printf("\nNão há equipes nesta modalidade.\n");
             }
-            else printf("\nEsta modalidade não existe.");
-        atual = atual->prox;
+            else
+                printf("\nEsta modalidade não existe.\n");
+            atual = atual->prox;
         }
     }
-    else printf("\nAinda não há nenhuma modalidade.");
+    else
+        printf("\nAinda não há nenhuma modalidade.\n");
 }
