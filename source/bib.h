@@ -12,6 +12,5 @@ int removerModalidade(Modalidades *d, char *nome);
 void altNomeModalidade(Modalidades *d, char *nomeAnt, char *nomeNovo);
 void buscarModalidade(Modalidades *d, char *nome);
 
-void incializarListaS(Equipes **e);
-int inserirEquipe(Equipes *e, NoEquipes *no, char *modal, Modalidades *d);
+int inserirEquipe(NoEquipes *no, char *modal, Modalidades *d);
 #endif
