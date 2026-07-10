@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "bib.h"
-#include <locale.h>
 
 struct modalidades {
     struct noModalidades *inicio;
@@ -113,7 +112,6 @@ int removerModalidade(Modalidades *d, char *nome) {
     return 0; // removido com sucesso
 }
 
-
 void altNomeModalidade(Modalidades *d, char *nomeAnt, char *nomeNovo) {
     if (d->quantidade == 0) {
         printf("\nLista vazia\n");
@@ -134,15 +132,14 @@ void altNomeModalidade(Modalidades *d, char *nomeAnt, char *nomeNovo) {
         strcpy(atual->nome, nomeNovo);
         printf("\nNome alterado!\n");
     } else {
-        printf("\nModalidade nï¿½o encontrada!\n");
+        printf("\nModalidade inexistente!\n");
     }
 }
 
 void buscarModalidade(Modalidades *d, char *nome) {
-    setlocale(LC_ALL, "");
     NoModalidades *atual = d->inicio;
 
-    if (d->quantidade == 0) printf("Não há elementos na lista.\n");
+    if (d->quantidade == 0) printf("Nï¿½o hï¿½ elementos na lista.\n");
     else {
         while (atual != NULL) {
             if(strcmp(nome, atual->nome)) {
@@ -196,4 +193,31 @@ int inserirEquipe(NoEquipes *no, char *modal, Modalidades *d) {
     }
     atual->quantidade++;
     return 0; //sucesso
+}
+
+int carregarModalidadesArquivo(Modalidades *d, char *nomeArquivo) {
+    FILE *arquivo;
+    char nome[50];
+
+    if (d == NULL) {
+        return 1; // lista invalida
+    }
+
+    arquivo = fopen(nomeArquivo, "r");
+
+    if (arquivo == NULL) {
+        return 2; // erro ao abrir arquivo
+    }
+
+    while (fgets(nome, 50, arquivo) != NULL) {
+        nome[strcspn(nome, "\n")] = '\0';
+
+        if (strlen(nome) > 0) {
+            inserirModalidade(d, nome);
+        }
+    }
+
+    fclose(arquivo);
+
+    return 0; // sucesso
 }

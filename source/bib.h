@@ -13,4 +13,5 @@ void altNomeModalidade(Modalidades *d, char *nomeAnt, char *nomeNovo);
 void buscarModalidade(Modalidades *d, char *nome);
 
 int inserirEquipe(NoEquipes *no, char *modal, Modalidades *d);
+int carregarModalidadesArquivo(Modalidades *d, char *nomeArquivo);
 #endif
