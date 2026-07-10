@@ -18,7 +18,8 @@ struct noModalidades {
     char nome[50];
     struct noModalidades *prox;
     struct noModalidades *ant;
-    struct equipes *eq;
+    struct NoEquipes *inicio;
+    int quantidade;
 };
 
 struct noEquipes {
@@ -27,7 +28,7 @@ struct noEquipes {
     struct noEquipes *prox;
     struct noEquipes *ant;
 };
-
+                                                                    //funções lista principal
 void inicializarListaP(Modalidades **d) {
     *d = (Modalidades *) malloc(sizeof(Modalidades));
     if (*d == NULL) return;
@@ -41,6 +42,7 @@ int criarNoModalidades(NoModalidades **novo) {
 
     (*novo)->prox = NULL;
     (*novo)->ant = NULL;
+    (*novo)->inicio = NULL; //Já inicializa a lista vazia das equipes desta modalidade
     return 0; // Sucesso
 }
 
@@ -150,4 +152,48 @@ void buscarModalidade(Modalidades *d, char *nome) {
             atual = atual->prox;
         }
     }
+}
+                                                           //funções da lista secundária
+
+int criarNoEquipes(NoEquipes **novo) {
+    *novo = (NoEquipes *) malloc(sizeof(NoEquipes));
+    if (*novo == NULL) return 1; // falha na alocaï¿½ï¿½o
+
+    (*novo)->prox = NULL;
+    (*novo)->ant = NULL;
+    return 0; // Sucesso
+}
+
+int inserirEquipe(NoEquipes *no, char *modal, Modalidades *d) {
+    NoEquipes *novo;
+    if (criarNoEquipes(&novo)) return 1; //falha
+
+    novo->ano = no->ano;
+    novo->titulos = no->titulos;
+    strcpy(novo->nome, no->nome);
+    strcpy(novo->cidade, no->cidade);
+
+    NoModalidades *atual = d->inicio;
+    if (d->quantidade != 0) {
+        while(atual != NULL) {
+            if (strcmp(modal, atual->nome)) {
+                if (atual->quantidade == 0) {
+                    atual->inicio = novo;
+                }
+                else {
+                    novo->prox = atual->inicio;
+                    novo->prox->ant = novo;
+                    atual->inicio = novo;
+                }
+            }
+            else {
+                atual = atual->prox;
+            }
+        }
+    }
+    else {
+        return 1; //lista vazia
+    }
+    atual->quantidade++;
+    return 0; //sucesso
 }
