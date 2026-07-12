@@ -13,8 +13,9 @@ void buscarModalidade(Modalidades *d, char *nome);
 int carregarModalidadesArquivo(Modalidades *d, char *nomeArquivo);
 int inserirEquipe(NoEquipes *no, char *modal, Modalidades *d);
 void removerEquipe(Modalidades *d, char *nomeEq, char *nomeMod);
-int quantEquipes(Modalidades *d, char *nomeMod);
+int quantEquipes(Modalidades *d);
 void listarEquipes(Modalidades *d, char *nome);
 void altDadoEquipe(Modalidades *d, char *nome, char *nome2);
 void buscaEquipe(Modalidades *d, char *nome, char *nome2);
+void ordEquipesAno(Modalidades *d, int ord);
 #endif

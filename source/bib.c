@@ -4,6 +4,10 @@
 #include "bib.h"
 #include <locale.h>
 
+typedef struct noEquipesfunc{ // Usado na ordEquipesAno
+    char nome[50];
+    int ano;
+}NoEquipesfunc;
 struct modalidades
 {
     struct noModalidades *inicio;
@@ -46,7 +50,7 @@ int criarNoModalidades(NoModalidades **novo)
     (*novo)->ant = NULL;
     (*novo)->inicio = NULL;
     (*novo)->quantidade = 0;
-    return 0;               // Sucesso
+    return 0; // Sucesso
 }
 
 int inserirModalidade(Modalidades *d, char *nome)
@@ -237,9 +241,12 @@ int inserirEquipe(NoEquipes *no, char *modal, Modalidades *d)
     {
         return -1; // lista vazia
     }
-    if (achou == 1) {
+    if (achou == 1)
+    {
         atual->quantidade++;
-    } else {
+    }
+    else
+    {
         return 2; // Modalidade inexistente
     }
     return 0; // sucesso
@@ -277,34 +284,18 @@ int carregarModalidadesArquivo(Modalidades *d, char *nomeArquivo)
     return 0; // sucesso
 }
 
-int quantEquipes(Modalidades *d, char *nomeMod)
+int quantEquipes(Modalidades *d)
 {
     if (d->quantidade == 0)
         return 1; // Lista vazia
 
     NoModalidades *atual = d->inicio;
-    int k = 0;
-    while (atual != NULL)
-    {
-        if (strcmp(atual->nome, nomeMod) == 0)
-        {
-            k = 1;
-            break;
-        }
-        else
-        {
-            atual = atual->prox;
-        }
+    int acc = 0;
+    while (atual != NULL) {
+        acc += atual->quantidade;
+        atual = atual->prox;
     }
-
-    if (k)
-    {
-        return atual->quantidade;
-    }
-    else
-    {
-        return -1; // Modalidade inexistente
-    }
+    return acc;
 }
 
 void removerEquipe(Modalidades *d, char *nomeEq, char *nomeMod)
@@ -331,7 +322,8 @@ void removerEquipe(Modalidades *d, char *nomeEq, char *nomeMod)
         {
             atualEQ = atualEQ->prox;
         }
-        if (atualEQ == NULL) {
+        if (atualEQ == NULL)
+        {
             printf("\nEquipe inexistente.\n");
             return;
         }
@@ -361,124 +353,149 @@ void listarEquipes(Modalidades *d, char *nome)
 {
     setlocale(LC_ALL, "");
 
-    if (d->quantidade == 0) {
+    if (d->quantidade == 0)
+    {
         printf("\nAinda não há nenhuma modalidade.\n");
         return;
     }
 
     NoModalidades *atual = d->inicio;
-    while (atual != NULL && strcmp(atual->nome, nome) != 0) {
+    while (atual != NULL && strcmp(atual->nome, nome) != 0)
+    {
         atual = atual->prox;
     }
 
-    if (atual == NULL) {
+    if (atual == NULL)
+    {
         printf("\nEsta modalidade não existe.\n");
         return;
     }
 
-    if (atual->quantidade == 0) {
+    if (atual->quantidade == 0)
+    {
         printf("\nNão há equipes nesta modalidade.\n");
         return;
     }
 
     int i = 1;
     NoEquipes *atual2 = atual->inicio;
-    while (atual2 != NULL) {
+    while (atual2 != NULL)
+    {
         printf("\nEquipe %d: %s.", i, atual2->nome);
         i++;
         atual2 = atual2->prox;
     }
 }
 
-void altDadoEquipe(Modalidades *d, char *nome, char *nome2) {
+void altDadoEquipe(Modalidades *d, char *nome, char *nome2)
+{
     NoModalidades *atual = d->inicio;
     setlocale(LC_ALL, "");
 
-    if (d->quantidade != 0) {
-        while (atual != NULL && (strcmp(atual->nome, nome))) {
+    if (d->quantidade != 0)
+    {
+        while (atual != NULL && (strcmp(atual->nome, nome)))
+        {
             atual = atual->prox;
         }
     }
-    if (atual == NULL) {
+    if (atual == NULL)
+    {
         printf("\nEssa modalidade não está registrada.\n");
         return;
     }
 
-    if (atual->quantidade == 0) return;
-    
+    if (atual->quantidade == 0)
+        return;
+
     NoEquipes *atual2 = atual->inicio;
-    while (atual2 != NULL && (strcmp(atual2->nome, nome2))) {
+    while (atual2 != NULL && (strcmp(atual2->nome, nome2)))
+    {
         atual2 = atual2->prox;
     }
-    if (atual2 == NULL) {
+    if (atual2 == NULL)
+    {
         printf("\nEssa equipe não está registrada nesta modalidade.\n");
         return;
     }
 
     int opcao;
-    do {
+    do
+    {
         printf("\n\nQual dado desta equipe você deseja alterar?\n");
         printf("\n1: Nome.");
         printf("\n2: Cidade de origem.");
         printf("\n3: Ano de fundação: ");
         printf("\n4: Quantidade de títulos: \n");
         scanf("%d", &opcao);
-        switch (opcao) {
-            case 1: {
-                char novoNome[50];
-                printf("\nDigite o novo nome da equipe: ");
-                scanf(" %49[^\n]", novoNome);
-                strcpy(atual2->nome, novoNome);
-                break;
-            }
-            case 2: {
-                char novaCidade[50];
-                printf("\nDigite a nova cidade de origem da equipe: ");
-                scanf(" %49[^\n]", novaCidade);
-                strcpy(atual2->cidade, novaCidade);
-                break;
-            }
-            case 3: {
-                int novoAno;
-                printf("\nDigite o novo ano de fundação da equipe: ");
-                scanf("%d", &novoAno);
-                atual2->ano = novoAno;
-                break;
-            }
-            case 4: {
-                int novaQuant;
-                printf("\nAltere a quantidade de títulos da equipe: ");
-                scanf("%d", &novaQuant);
-                atual2->titulos = novaQuant;
-                break;
-            }
-            default: 
-                break;
+        switch (opcao)
+        {
+        case 1:
+        {
+            char novoNome[50];
+            printf("\nDigite o novo nome da equipe: ");
+            scanf(" %49[^\n]", novoNome);
+            strcpy(atual2->nome, novoNome);
+            break;
+        }
+        case 2:
+        {
+            char novaCidade[50];
+            printf("\nDigite a nova cidade de origem da equipe: ");
+            scanf(" %49[^\n]", novaCidade);
+            strcpy(atual2->cidade, novaCidade);
+            break;
+        }
+        case 3:
+        {
+            int novoAno;
+            printf("\nDigite o novo ano de fundação da equipe: ");
+            scanf("%d", &novoAno);
+            atual2->ano = novoAno;
+            break;
+        }
+        case 4:
+        {
+            int novaQuant;
+            printf("\nAltere a quantidade de títulos da equipe: ");
+            scanf("%d", &novaQuant);
+            atual2->titulos = novaQuant;
+            break;
+        }
+        default:
+            break;
         }
     } while (opcao != 0);
 }
 
-void buscaEquipe(Modalidades *d, char *nome, char *nome2) {
+void buscaEquipe(Modalidades *d, char *nome, char *nome2)
+{
     setlocale(LC_ALL, "");
     NoModalidades *atual = d->inicio;
-    
-    if (d->quantidade != 0) {
-        while (atual != NULL && (strcmp(atual->nome, nome))) {
+
+    if (d->quantidade != 0)
+    {
+        while (atual != NULL && (strcmp(atual->nome, nome)))
+        {
             atual = atual->prox;
         }
     }
-    if (atual == NULL) {
+    if (atual == NULL)
+    {
         printf("\nEssa modalidade não está registrada.\n");
         return;
     }
 
-    if (atual->quantidade == 0) return;
-    
+    if (atual->quantidade == 0)
+        return;
+
     NoEquipes *atual2 = atual->inicio;
-    while (atual2 != NULL && (strcmp(atual2->nome, nome2))) {
+    while (atual2 != NULL && (strcmp(atual2->nome, nome2)))
+    {
         atual2 = atual2->prox;
     }
-    if (atual2 == NULL) {
+    if (atual2 == NULL)
+    {
         printf("\nEssa equipe não está registrada nesta modalidade.\n");
         return;
     }
@@ -488,4 +505,110 @@ void buscaEquipe(Modalidades *d, char *nome, char *nome2) {
     printf("\nCidade de origem: %s", atual2->cidade);
     printf("\nAno de fundação: %d", atual2->ano);
     printf("\nQuantidade de títulos: %d", atual2->titulos);
+}
+
+void ordEquipesAno(Modalidades *d, int ord) { // ord = 0 -> Crescente   ord = 1 -> Decrescente
+    int tam = quantEquipes(d);
+    int i = 0;
+
+    if (tam == 0) {
+        printf("\nSem equipes cadastradas!\n");
+        return;
+    }
+
+    NoEquipesfunc eqs[tam];
+    NoModalidades *atual = d->inicio;
+    while (atual != NULL) {
+        NoEquipes *atualEq = atual->inicio;
+        while (atualEq != NULL) {
+            NoEquipesfunc equipe;
+            strcpy(equipe.nome, atualEq->nome);
+            strcat(equipe.nome, " (");
+            strcat(equipe.nome, atual->nome);
+            strcat(equipe.nome, ")");
+            equipe.ano = atualEq->ano;
+            eqs[i] = equipe;
+            i++;
+            atualEq = atualEq->prox;
+        }
+        atual = atual->prox;
+    }
+    countingSort(eqs, tam);
+
+    if (ord == 1) {
+    inverterArray(eqs, tam);
+    }
+    
+    for (int j = 0; j < tam; j++) {
+        printf("\n%d. %s Ano: %d", j+1, eqs[j].nome, eqs[j].ano);
+    }
+    printf("\n");
+}
+
+// Encontra o menor ano das equipes
+int encontrarMenor(NoEquipesfunc eqs[], int tam) {
+    int menor = eqs[0].ano;
+    for (int i = 1; i < tam; i++) {
+        if (eqs[i].ano < menor) {
+            menor = eqs[i].ano;
+        }
+    }
+    return menor;
+}
+
+// Encontra o maior ano das equipes
+int encontrarMaior(NoEquipesfunc eqs[], int tam) {
+    int maior = eqs[0].ano;
+    for (int i = 1; i < tam; i++) {
+        if (eqs[i].ano > maior) {
+            maior = eqs[i].ano;
+        }
+    }
+    return maior;
+}
+
+void countingSort(NoEquipesfunc eqs[], int tam) { // Ordena de forma crescente
+    int menor = encontrarMenor(eqs, tam);
+    int maior = encontrarMaior(eqs, tam);
+    int rangeAnos = maior - menor + 1;
+
+    // Array de contagem, usando (ano - menor) como índice
+    int *contagem = calloc(rangeAnos, sizeof(int)); // Calloc para inicializar zerado
+
+    // Conta quantas equipes existem para cada ano
+    for (int i = 0; i < tam; i++) {
+        contagem[eqs[i].ano - menor]++;
+    }
+
+    // Transforma em contagem acumulada (posição final de cada elemento) 
+    for (int i = 1; i < rangeAnos; i++) {
+        contagem[i] += contagem[i - 1]; // Conta quantas equipes tem o ano <= ao ano da posicao atual
+    }
+
+    // Array auxiliar para guardar as structs na ordem correta
+    NoEquipesfunc *saida = malloc(tam * sizeof(NoEquipesfunc));
+
+    // Percorre de trás para frente para manter estabilidade
+    // (equipes com mesmo ano mantêm a ordem relativa original)
+    for (int i = tam - 1; i >= 0; i--) {
+        int indice = eqs[i].ano - menor;
+        contagem[indice]--; // Decrementa primeiro pois a contagem do array comeca no 0
+        saida[contagem[indice]] = eqs[i]; // copia nome + ano
+    }
+
+    // Copia o resultado ordenado de volta para o array original
+    for (int i = 0; i < tam; i++) {
+        eqs[i] = saida[i];
+    }
+
+    free(saida);
+    free(contagem);
+}
+
+void inverterArray(NoEquipesfunc eqs[], int tam) { // Para ordenação decrescente
+    for (int i = 0; i < tam / 2; i++) {
+        NoEquipesfunc temp = eqs[i];
+        eqs[i] = eqs[tam - 1 - i];
+        eqs[tam - 1 - i] = temp;
+    }
 }
