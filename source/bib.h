@@ -11,7 +11,6 @@ int removerModalidade(Modalidades *d, char *nome);
 void altNomeModalidade(Modalidades *d, char *nomeAnt, char *nomeNovo);
 void buscarModalidade(Modalidades *d, char *nome);
 int carregarModalidadesArquivo(Modalidades *d, char *nomeArquivo);
-
 int inserirEquipe(NoEquipes *no, char *modal, Modalidades *d);
 void removerEquipe(Modalidades *d, char *nomeEq, char *nomeMod);
 int quantEquipes(Modalidades *d, char *nomeMod);

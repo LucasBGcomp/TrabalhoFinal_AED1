@@ -15,7 +15,7 @@ struct noModalidades
     char nome[50];
     struct noModalidades *prox;
     struct noModalidades *ant;
-    struct NoEquipes *inicio;
+    struct noEquipes *inicio;
     int quantidade;
 };
 
@@ -44,7 +44,8 @@ int criarNoModalidades(NoModalidades **novo)
 
     (*novo)->prox = NULL;
     (*novo)->ant = NULL;
-    (*novo)->inicio = NULL; // Já inicializa a lista vazia das equipes desta modalidade
+    (*novo)->inicio = NULL;
+    (*novo)->quantidade = 0;
     return 0;               // Sucesso
 }
 
@@ -205,6 +206,7 @@ int inserirEquipe(NoEquipes *no, char *modal, Modalidades *d)
     strcpy(novo->nome, no->nome);
     strcpy(novo->cidade, no->cidade);
 
+    int achou = 0;
     NoModalidades *atual = d->inicio;
     if (d->quantidade != 0)
     {
@@ -212,6 +214,7 @@ int inserirEquipe(NoEquipes *no, char *modal, Modalidades *d)
         {
             if (strcmp(modal, atual->nome) == 0)
             {
+                achou = 1;
                 if (atual->quantidade == 0)
                 {
                     atual->inicio = novo;
@@ -222,6 +225,7 @@ int inserirEquipe(NoEquipes *no, char *modal, Modalidades *d)
                     novo->prox->ant = novo;
                     atual->inicio = novo;
                 }
+                break;
             }
             else
             {
@@ -233,7 +237,11 @@ int inserirEquipe(NoEquipes *no, char *modal, Modalidades *d)
     {
         return -1; // lista vazia
     }
-    atual->quantidade++;
+    if (achou == 1) {
+        atual->quantidade++;
+    } else {
+        return 2; // Modalidade inexistente
+    }
     return 0; // sucesso
 }
 
@@ -323,8 +331,10 @@ void removerEquipe(Modalidades *d, char *nomeEq, char *nomeMod)
         {
             atualEQ = atualEQ->prox;
         }
-        if (atualEQ == NULL)
+        if (atualEQ == NULL) {
             printf("\nEquipe inexistente.\n");
+            return;
+        }
 
         if (atualEQ->ant == NULL)
         {
