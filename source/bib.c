@@ -380,3 +380,99 @@ void listarEquipes(Modalidades *d, char *nome)
     else
         printf("\nAinda não há nenhuma modalidade.\n");
 }
+
+void altDadoEquipe(Modalidades *d, char *nome, char *nome2) {
+    NoModalidades *atual = d->inicio;
+    setlocale(LC_ALL, "");
+
+    if (d->quantidade != 0) {
+        while (atual != NULL && (strcmp(atual->nome, nome))) {
+            atual = atual->prox;
+        }
+    }
+    if (!(strcmp(atual->nome, nome))) {
+        printf("\nEssa modalidade não está registrada.\n");
+    }
+
+    if (atual->quantidade == 0) return;
+    
+    NoEquipes *atual2 = atual->inicio;
+    while (atual2 != NULL && (strcmp(atual2->nome, nome2))) {
+        atual2 = atual2->prox;
+    }
+    if (!(strcmp(atual2->nome, nome))) {
+        printf("\nEssa equipe não está registrada nesta modalidade.\n");
+    }
+
+    int opcao;
+    do {
+        printf("\n\nQual dado desta equipe você deseja alterar?\n");
+        printf("\n1: Nome.");
+        printf("\n2: Cidade de origem.");
+        printf("\n3: Ano de fundação: ");
+        printf("\n4: Quantidade de títulos: \n");
+        scanf("%d", &opcao);
+        switch (opcao) {
+            case 1: {
+                char novoNome[50];
+                printf("\nDigite o novo nome da equipe: ");
+                scanf("%49[^\n]", novoNome);
+                strcpy(atual2->nome, novoNome);
+                break;
+            }
+            case 2: {
+                char novaCidade[50];
+                printf("\nDigite a nova cidade de origem da equipe: ");
+                scanf("%49[^\n]", novaCidade);
+                strcpy(atual2->cidade, novaCidade);
+                break;
+            }
+            case 3: {
+                int novoAno;
+                printf("\nDigite o novo ano de fundação da equipe: ");
+                scanf("%d", &novoAno);
+                atual2->ano = novoAno;
+                break;
+            }
+            case 4: {
+                int novaQuant;
+                printf("\nAltere a quantidade de títulos da equipe: ");
+                scanf("%d", &novaQuant);
+                atual2->titulos = novaQuant;
+                break;
+            }
+            default: 
+                break;
+        }
+    } while (opcao != 0);
+}
+
+void buscaEquipe(Modalidades *d, char *nome, char *nome2) {
+    setlocale(LC_ALL, "");
+    NoModalidades *atual = d->inicio;
+    
+    if (d->quantidade != 0) {
+        while (atual != NULL && (strcmp(atual->nome, nome))) {
+            atual = atual->prox;
+        }
+    }
+    if (!(strcmp(atual->nome, nome))) {
+        printf("\nEssa modalidade não está registrada.\n");
+    }
+
+    if (atual->quantidade == 0) return;
+    
+    NoEquipes *atual2 = atual->inicio;
+    while (atual2 != NULL && (strcmp(atual2->nome, nome2))) {
+        atual2 = atual2->prox;
+    }
+    if (!(strcmp(atual2->nome, nome))) {
+        printf("\nEssa equipe não está registrada nesta modalidade.\n");
+    }
+
+    printf("\n\nInformações da equipe: ");
+    printf("\nNome: %s", atual2->nome);
+    printf("\nCidade de origem: %s", atual2->cidade);
+    printf("\nAno de fundação: %d", atual2->ano);
+    printf("\nQuantidade de títulos: %d", atual2->titulos);
+}
