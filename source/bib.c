@@ -360,35 +360,34 @@ void removerEquipe(Modalidades *d, char *nomeEq, char *nomeMod)
 void listarEquipes(Modalidades *d, char *nome)
 {
     setlocale(LC_ALL, "");
-    NoModalidades *atual = d->inicio;
-    int i = 1;
 
-    if (d->quantidade != 0)
-    {
-        while (atual != NULL)
-        {
-            if (strcmp(atual->nome, nome))
-            {
-                if (atual->quantidade != 0)
-                {
-                    NoEquipes *atual2 = atual->inicio;
-                    while (atual2 != NULL)
-                    {
-                        printf("\nEquipe %d: %s.", i, atual2->nome);
-                        i++;
-                        atual2 = atual2->prox;
-                    }
-                }
-                else
-                    printf("\nNão há equipes nesta modalidade.\n");
-            }
-            else
-                printf("\nEsta modalidade não existe.\n");
-            atual = atual->prox;
-        }
-    }
-    else
+    if (d->quantidade == 0) {
         printf("\nAinda não há nenhuma modalidade.\n");
+        return;
+    }
+
+    NoModalidades *atual = d->inicio;
+    while (atual != NULL && strcmp(atual->nome, nome) != 0) {
+        atual = atual->prox;
+    }
+
+    if (atual == NULL) {
+        printf("\nEsta modalidade não existe.\n");
+        return;
+    }
+
+    if (atual->quantidade == 0) {
+        printf("\nNão há equipes nesta modalidade.\n");
+        return;
+    }
+
+    int i = 1;
+    NoEquipes *atual2 = atual->inicio;
+    while (atual2 != NULL) {
+        printf("\nEquipe %d: %s.", i, atual2->nome);
+        i++;
+        atual2 = atual2->prox;
+    }
 }
 
 void altDadoEquipe(Modalidades *d, char *nome, char *nome2) {
@@ -400,8 +399,9 @@ void altDadoEquipe(Modalidades *d, char *nome, char *nome2) {
             atual = atual->prox;
         }
     }
-    if (!(strcmp(atual->nome, nome))) {
+    if (atual == NULL) {
         printf("\nEssa modalidade não está registrada.\n");
+        return;
     }
 
     if (atual->quantidade == 0) return;
@@ -410,8 +410,9 @@ void altDadoEquipe(Modalidades *d, char *nome, char *nome2) {
     while (atual2 != NULL && (strcmp(atual2->nome, nome2))) {
         atual2 = atual2->prox;
     }
-    if (!(strcmp(atual2->nome, nome))) {
+    if (atual2 == NULL) {
         printf("\nEssa equipe não está registrada nesta modalidade.\n");
+        return;
     }
 
     int opcao;
@@ -426,14 +427,14 @@ void altDadoEquipe(Modalidades *d, char *nome, char *nome2) {
             case 1: {
                 char novoNome[50];
                 printf("\nDigite o novo nome da equipe: ");
-                scanf("%49[^\n]", novoNome);
+                scanf(" %49[^\n]", novoNome);
                 strcpy(atual2->nome, novoNome);
                 break;
             }
             case 2: {
                 char novaCidade[50];
                 printf("\nDigite a nova cidade de origem da equipe: ");
-                scanf("%49[^\n]", novaCidade);
+                scanf(" %49[^\n]", novaCidade);
                 strcpy(atual2->cidade, novaCidade);
                 break;
             }
@@ -466,8 +467,9 @@ void buscaEquipe(Modalidades *d, char *nome, char *nome2) {
             atual = atual->prox;
         }
     }
-    if (!(strcmp(atual->nome, nome))) {
+    if (atual == NULL) {
         printf("\nEssa modalidade não está registrada.\n");
+        return;
     }
 
     if (atual->quantidade == 0) return;
@@ -476,8 +478,9 @@ void buscaEquipe(Modalidades *d, char *nome, char *nome2) {
     while (atual2 != NULL && (strcmp(atual2->nome, nome2))) {
         atual2 = atual2->prox;
     }
-    if (!(strcmp(atual2->nome, nome))) {
+    if (atual2 == NULL) {
         printf("\nEssa equipe não está registrada nesta modalidade.\n");
+        return;
     }
 
     printf("\n\nInformações da equipe: ");
