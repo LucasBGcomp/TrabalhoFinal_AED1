@@ -424,11 +424,12 @@ void altDadoEquipe(Modalidades *d, char *nome, char *nome2)
     int opcao;
     do
     {
-        printf("\n\nQual dado desta equipe vocï¿½ deseja alterar?\n");
-        printf("\n1: Nome.");
-        printf("\n2: Cidade de origem.");
-        printf("\n3: Ano de fundaï¿½ï¿½o: ");
-        printf("\n4: Quantidade de tï¿½tulos: \n");
+        printf("\nQual dado desta equipe vocï¿½ deseja alterar?\n");
+        printf("\n1: Nome");
+        printf("\n2: Cidade de origem");
+        printf("\n3: Ano de fundaï¿½ï¿½o");
+        printf("\n4: Quantidade de tï¿½tulos");
+        printf("\n0: Encerrar\n\n");
         scanf("%d", &opcao);
         switch (opcao)
         {
@@ -464,7 +465,10 @@ void altDadoEquipe(Modalidades *d, char *nome, char *nome2)
             atual2->titulos = novaQuant;
             break;
         }
+        case 0:
+            break;
         default:
+            printf("\nOpï¿½ï¿½o invï¿½lida!\n");
             break;
         }
     } while (opcao != 0);
@@ -506,7 +510,7 @@ void buscaEquipe(Modalidades *d, char *nome, char *nome2)
     printf("\nNome: %s", atual2->nome);
     printf("\nCidade de origem: %s", atual2->cidade);
     printf("\nAno de fundaï¿½ï¿½o: %d", atual2->ano);
-    printf("\nQuantidade de tï¿½tulos: %d", atual2->titulos);
+    printf("\nQuantidade de tï¿½tulos: %d\n", atual2->titulos);
 }
 
 void ordEquipesAno(Modalidades *d, int ord) // ord = 0 -> Crescente   ord = 1 -> Decrescente
@@ -553,7 +557,7 @@ void ordEquipesAno(Modalidades *d, int ord) // ord = 0 -> Crescente   ord = 1 ->
     printf("\n");
 }
 
-void bubbleSort(NoEquipesfunc eqs[], int tam)
+void bubbleSort(NoEquipesfunc eqs[], int tam) // Ordena as equipes das mais velhas para as mais novas
 {
     for (int i = 0; i < tam - 1; i++)
     {
@@ -570,8 +574,8 @@ void bubbleSort(NoEquipesfunc eqs[], int tam)
     }
 }
 
-void inverterArray(NoEquipesfunc eqs[], int tam)
-{ // Para ordenaï¿½ï¿½o decrescente
+void inverterArray(NoEquipesfunc eqs[], int tam) // Para ordenacao decrescente
+{
     for (int i = 0; i < tam / 2; i++)
     {
         NoEquipesfunc temp = eqs[i];
@@ -601,4 +605,84 @@ void contabilizarEquipesPorModalidade(Modalidades *d)
     }
 
     printf("\n==============================================\n");
+}
+
+int ehPrimeiraOcorrencia(Modalidades *d, NoModalidades *modLimite, NoEquipes *eqLimite, char *nome)
+{
+    NoModalidades *atual = d->inicio;
+    while (atual != NULL)
+    {
+        NoEquipes *e = atual->inicio;
+        while (e != NULL)
+        {
+            if (atual == modLimite && e == eqLimite) // Se chegou no limite e nao encontrou nenhuma eh porque eh a primeira ocorrencia dessa equipe
+            {
+                return 1;
+            }
+            if (strcmp(e->nome, nome) == 0)
+            {
+                return 0;
+            }
+            e = e->prox;
+        }
+        atual = atual->prox;
+    }
+    return 1;
+}
+
+void identificarEquipesMultiModalidade(Modalidades *d)
+{
+    setlocale(LC_ALL, "");
+
+    if (d == NULL || d->quantidade == 0)
+    {
+        printf("\nAinda não há nenhuma modalidade cadastrada.\n");
+        return;
+    }
+
+    int encontrouAlguma = 0;
+    NoModalidades *atual = d->inicio;
+
+    while (atual != NULL)
+    {
+        NoEquipes *eqAtual = atual->inicio;
+
+        while (eqAtual != NULL)
+        {
+            if (ehPrimeiraOcorrencia(d, atual, eqAtual, eqAtual->nome))
+            {
+                int contModalidades = 0;
+                NoModalidades *modBusca = d->inicio;
+
+                while (modBusca != NULL)
+                {
+                    NoEquipes *eqBusca = modBusca->inicio;
+                    while (eqBusca != NULL)
+                    {
+                        if (strcmp(eqBusca->nome, eqAtual->nome) == 0)
+                        {
+                            contModalidades++; // Conta quantas vezes a equipe apareceS
+                            break;
+                        }
+                        eqBusca = eqBusca->prox;
+                    }
+                    modBusca = modBusca->prox;
+                }
+
+                if (contModalidades > 1) // Se a equipe aparece mais de uma vez
+                {
+                    printf("\nEquipe \"%s\" está associada a %d modalidades diferentes.", eqAtual->nome, contModalidades);
+                    encontrouAlguma = 1;
+                }
+            }
+
+            eqAtual = eqAtual->prox;
+        }
+        atual = atual->prox;
+    }
+
+    if (!encontrouAlguma) // Se nenhuma equipe se repete
+    {
+        printf("\nNenhuma equipe está associada a mais de uma modalidade.\n");
+    }
 }
