@@ -18,4 +18,5 @@ void listarEquipes(Modalidades *d, char *nome);
 void altDadoEquipe(Modalidades *d, char *nome, char *nome2);
 void buscaEquipe(Modalidades *d, char *nome, char *nome2);
 void ordEquipesAno(Modalidades *d, int ord);
+void contabilizarEquipesPorModalidade(Modalidades *d);
 #endif
