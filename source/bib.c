@@ -4,10 +4,11 @@
 #include "bib.h"
 #include <locale.h>
 
-typedef struct noEquipesfunc{ // Usado na ordEquipesAno
+typedef struct noEquipesfunc
+{ // Usado na ordEquipesAno
     char nome[50];
     int ano;
-}NoEquipesfunc;
+} NoEquipesfunc;
 struct modalidades
 {
     struct noModalidades *inicio;
@@ -291,7 +292,8 @@ int quantEquipes(Modalidades *d)
 
     NoModalidades *atual = d->inicio;
     int acc = 0;
-    while (atual != NULL) {
+    while (atual != NULL)
+    {
         acc += atual->quantidade;
         atual = atual->prox;
     }
@@ -507,25 +509,28 @@ void buscaEquipe(Modalidades *d, char *nome, char *nome2)
     printf("\nQuantidade de títulos: %d", atual2->titulos);
 }
 
-void ordEquipesAno(Modalidades *d, int ord) { // ord = 0 -> Crescente   ord = 1 -> Decrescente
+void ordEquipesAno(Modalidades *d, int ord) // ord = 0 -> Crescente   ord = 1 -> Decrescente
+{
     int tam = quantEquipes(d);
     int i = 0;
 
-    if (tam == 0) {
+    if (tam == 0)
+    {
         printf("\nSem equipes cadastradas!\n");
         return;
     }
 
     NoEquipesfunc eqs[tam];
     NoModalidades *atual = d->inicio;
-    while (atual != NULL) {
+    while (atual != NULL)
+    {
         NoEquipes *atualEq = atual->inicio;
-        while (atualEq != NULL) {
+        while (atualEq != NULL)
+        {
             NoEquipesfunc equipe;
             strcpy(equipe.nome, atualEq->nome);
-            strcat(equipe.nome, " (");
+            strcat(equipe.nome, " ");
             strcat(equipe.nome, atual->nome);
-            strcat(equipe.nome, ")");
             equipe.ano = atualEq->ano;
             eqs[i] = equipe;
             i++;
@@ -533,80 +538,42 @@ void ordEquipesAno(Modalidades *d, int ord) { // ord = 0 -> Crescente   ord = 1 
         }
         atual = atual->prox;
     }
-    countingSort(eqs, tam);
 
-    if (ord == 1) {
-    inverterArray(eqs, tam);
+    bubbleSort(eqs, tam);
+
+    if (ord == 1)
+    {
+        inverterArray(eqs, tam);
     }
-    
-    for (int j = 0; j < tam; j++) {
-        printf("\n%d. %s Ano: %d", j+1, eqs[j].nome, eqs[j].ano);
+
+    for (int j = 0; j < tam; j++)
+    {
+        printf("\n%d. %s Ano: %d", j + 1, eqs[j].nome, eqs[j].ano);
     }
     printf("\n");
 }
 
-// Encontra o menor ano das equipes
-int encontrarMenor(NoEquipesfunc eqs[], int tam) {
-    int menor = eqs[0].ano;
-    for (int i = 1; i < tam; i++) {
-        if (eqs[i].ano < menor) {
-            menor = eqs[i].ano;
+void bubbleSort(NoEquipesfunc eqs[], int tam)
+{
+    for (int i = 0; i < tam - 1; i++)
+    {
+        for (int j = 0; j < tam - 1 - i; j++)
+        {
+            if (eqs[j].ano > eqs[j + 1].ano)
+            {
+                // Troca as structs inteiras (nome + ano)
+                NoEquipesfunc temp = eqs[j];
+                eqs[j] = eqs[j + 1];
+                eqs[j + 1] = temp;
+            }
         }
     }
-    return menor;
 }
 
-// Encontra o maior ano das equipes
-int encontrarMaior(NoEquipesfunc eqs[], int tam) {
-    int maior = eqs[0].ano;
-    for (int i = 1; i < tam; i++) {
-        if (eqs[i].ano > maior) {
-            maior = eqs[i].ano;
-        }
-    }
-    return maior;
-}
-
-void countingSort(NoEquipesfunc eqs[], int tam) { // Ordena de forma crescente
-    int menor = encontrarMenor(eqs, tam);
-    int maior = encontrarMaior(eqs, tam);
-    int rangeAnos = maior - menor + 1;
-
-    // Array de contagem, usando (ano - menor) como índice
-    int *contagem = calloc(rangeAnos, sizeof(int)); // Calloc para inicializar zerado
-
-    // Conta quantas equipes existem para cada ano
-    for (int i = 0; i < tam; i++) {
-        contagem[eqs[i].ano - menor]++;
-    }
-
-    // Transforma em contagem acumulada (posição final de cada elemento) 
-    for (int i = 1; i < rangeAnos; i++) {
-        contagem[i] += contagem[i - 1]; // Conta quantas equipes tem o ano <= ao ano da posicao atual
-    }
-
-    // Array auxiliar para guardar as structs na ordem correta
-    NoEquipesfunc *saida = malloc(tam * sizeof(NoEquipesfunc));
-
-    // Percorre de trás para frente para manter estabilidade
-    // (equipes com mesmo ano mantêm a ordem relativa original)
-    for (int i = tam - 1; i >= 0; i--) {
-        int indice = eqs[i].ano - menor;
-        contagem[indice]--; // Decrementa primeiro pois a contagem do array comeca no 0
-        saida[contagem[indice]] = eqs[i]; // copia nome + ano
-    }
-
-    // Copia o resultado ordenado de volta para o array original
-    for (int i = 0; i < tam; i++) {
-        eqs[i] = saida[i];
-    }
-
-    free(saida);
-    free(contagem);
-}
-
-void inverterArray(NoEquipesfunc eqs[], int tam) { // Para ordenação decrescente
-    for (int i = 0; i < tam / 2; i++) {
+void inverterArray(NoEquipesfunc eqs[], int tam)
+{ // Para ordenação decrescente
+    for (int i = 0; i < tam / 2; i++)
+    {
         NoEquipesfunc temp = eqs[i];
         eqs[i] = eqs[tam - 1 - i];
         eqs[tam - 1 - i] = temp;
