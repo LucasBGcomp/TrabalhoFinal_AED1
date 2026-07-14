@@ -20,4 +20,5 @@ void buscaEquipe(Modalidades *d, char *nome, char *nome2);
 void ordEquipesAno(Modalidades *d, int ord);
 void contabilizarEquipesPorModalidade(Modalidades *d);
 void identificarEquipesMultiModalidade(Modalidades *d);
+void gerarRelatorio(Modalidades *d);
 #endif
