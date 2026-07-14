@@ -6,7 +6,7 @@
 
 typedef struct noEquipesfunc
 { // Usado na ordEquipesAno
-    char nome[50];
+    char nome[65];
     int ano;
 } NoEquipesfunc;
 struct modalidades
@@ -54,11 +54,14 @@ int criarNoModalidades(NoModalidades **novo)
     return 0; // Sucesso
 }
 
-int inserirModalidade(Modalidades *d, char *nome)
+void inserirModalidade(Modalidades *d, char *nome)
 {
     NoModalidades *novo;
     if (criarNoModalidades(&novo))
-        return 1; // falha
+    {
+        printf("\nErro!\n");
+        return;
+    }
 
     strcpy(novo->nome, nome);
 
@@ -73,7 +76,7 @@ int inserirModalidade(Modalidades *d, char *nome)
         d->inicio = novo;
     }
     d->quantidade++;
-    return 0; // sucesso
+    printf("\nModalidade inserida!\n");
 }
 
 int quantModalidades(Modalidades *d)
@@ -99,11 +102,12 @@ void listarModalidades(Modalidades *d)
     printf("\n===================\n");
 }
 
-int removerModalidade(Modalidades *d, char *nome)
+void removerModalidade(Modalidades *d, char *nome)
 {
     if (d == NULL || d->inicio == NULL)
     {
-        return 1; // lista vazia
+        printf("\nLista vazia!\n");
+        return;
     }
 
     NoModalidades *atual = d->inicio;
@@ -115,7 +119,8 @@ int removerModalidade(Modalidades *d, char *nome)
 
     if (atual == NULL)
     {
-        return -1; // modalidade inexistente
+        printf("\nModalidade inexistente!\n");
+        return;
     }
 
     if (atual->ant == NULL)
@@ -135,7 +140,7 @@ int removerModalidade(Modalidades *d, char *nome)
     free(atual);
     d->quantidade--;
 
-    return 0; // removido com sucesso
+    printf("\nModalidade removida!\n");
 }
 
 void altNomeModalidade(Modalidades *d, char *nomeAnt, char *nomeNovo)
@@ -200,11 +205,14 @@ int criarNoEquipes(NoEquipes **novo)
     return 0; // Sucesso
 }
 
-int inserirEquipe(NoEquipes *no, char *modal, Modalidades *d)
+void inserirEquipe(NoEquipes *no, char *modal, Modalidades *d)
 {
     NoEquipes *novo;
     if (criarNoEquipes(&novo))
-        return 1; // falha
+    {
+        printf("\nErro!\n");
+        return;
+    }
 
     novo->ano = no->ano;
     novo->titulos = no->titulos;
@@ -240,7 +248,8 @@ int inserirEquipe(NoEquipes *no, char *modal, Modalidades *d)
     }
     else
     {
-        return -1; // lista vazia
+        printf("\nLista vazia!\n");
+        return;
     }
     if (achou == 1)
     {
@@ -248,26 +257,29 @@ int inserirEquipe(NoEquipes *no, char *modal, Modalidades *d)
     }
     else
     {
-        return 2; // Modalidade inexistente
+        printf("\nModalidade inexistente!\n");
+        return;
     }
-    return 0; // sucesso
+    printf("\nEquipe inserida!\n");
 }
 
-int carregarModalidadesArquivo(Modalidades *d, char *nomeArquivo)
+void carregarModalidadesArquivo(Modalidades *d, char *nomeArquivo)
 {
     FILE *arquivo;
     char nome[50];
 
     if (d == NULL)
     {
-        return 1; // lista invalida
+        printf("\nLista inexistente!\n");
+        return;
     }
 
     arquivo = fopen(nomeArquivo, "r");
 
     if (arquivo == NULL)
     {
-        return 2; // erro ao abrir arquivo
+        printf("\nErro ao abrir o arquivo!\n");
+        return;
     }
 
     while (fgets(nome, 50, arquivo) != NULL)
@@ -282,7 +294,7 @@ int carregarModalidadesArquivo(Modalidades *d, char *nomeArquivo)
 
     fclose(arquivo);
 
-    return 0; // sucesso
+    printf("\nModalidades inseridas!\n");
 }
 
 int quantEquipes(Modalidades *d)
@@ -303,7 +315,10 @@ int quantEquipes(Modalidades *d)
 void removerEquipe(Modalidades *d, char *nomeEq, char *nomeMod)
 {
     if (d->quantidade == 0)
+    {
         printf("\nLista vazia.\n");
+        return;
+    }
 
     NoModalidades *atual = d->inicio;
     while (atual != NULL && strcmp(atual->nome, nomeMod) != 0)
@@ -313,7 +328,8 @@ void removerEquipe(Modalidades *d, char *nomeEq, char *nomeMod)
 
     if (atual == NULL)
     {
-        printf("Modalidade inexistente.");
+        printf("\nModalidade inexistente.\n");
+        return;
     }
     else
     {
@@ -357,7 +373,7 @@ void listarEquipes(Modalidades *d, char *nome)
 
     if (d->quantidade == 0)
     {
-        printf("\nAinda nï¿½o hï¿½ nenhuma modalidade.\n");
+        printf("\nLista vazia.\n");
         return;
     }
 
@@ -369,13 +385,13 @@ void listarEquipes(Modalidades *d, char *nome)
 
     if (atual == NULL)
     {
-        printf("\nEsta modalidade nï¿½o existe.\n");
+        printf("\nEssa modalidade não existe.\n");
         return;
     }
 
     if (atual->quantidade == 0)
     {
-        printf("\nNï¿½o hï¿½ equipes nesta modalidade.\n");
+        printf("\nNão há equipes nesta modalidade.\n");
         return;
     }
 
@@ -403,7 +419,7 @@ void altDadoEquipe(Modalidades *d, char *nome, char *nome2)
     }
     if (atual == NULL)
     {
-        printf("\nEssa modalidade nï¿½o estï¿½ registrada.\n");
+        printf("\nEssa modalidade não está registrada.\n");
         return;
     }
 
@@ -417,18 +433,18 @@ void altDadoEquipe(Modalidades *d, char *nome, char *nome2)
     }
     if (atual2 == NULL)
     {
-        printf("\nEssa equipe nï¿½o estï¿½ registrada nesta modalidade.\n");
+        printf("\nEssa equipe não está registrada nesta modalidade.\n");
         return;
     }
 
     int opcao;
     do
     {
-        printf("\nQual dado desta equipe vocï¿½ deseja alterar?\n");
+        printf("\nQual dado desta equipe você deseja alterar?\n");
         printf("\n1: Nome");
         printf("\n2: Cidade de origem");
-        printf("\n3: Ano de fundaï¿½ï¿½o");
-        printf("\n4: Quantidade de tï¿½tulos");
+        printf("\n3: Ano de fundação");
+        printf("\n4: Quantidade de títulos");
         printf("\n0: Encerrar\n\n");
         scanf("%d", &opcao);
         switch (opcao)
@@ -452,7 +468,7 @@ void altDadoEquipe(Modalidades *d, char *nome, char *nome2)
         case 3:
         {
             int novoAno;
-            printf("\nDigite o novo ano de fundaï¿½ï¿½o da equipe: ");
+            printf("\nDigite o novo ano de fundação da equipe: ");
             scanf("%d", &novoAno);
             atual2->ano = novoAno;
             break;
@@ -460,7 +476,7 @@ void altDadoEquipe(Modalidades *d, char *nome, char *nome2)
         case 4:
         {
             int novaQuant;
-            printf("\nAltere a quantidade de tï¿½tulos da equipe: ");
+            printf("\nAltere a quantidade de títulos da equipe: ");
             scanf("%d", &novaQuant);
             atual2->titulos = novaQuant;
             break;
@@ -468,7 +484,7 @@ void altDadoEquipe(Modalidades *d, char *nome, char *nome2)
         case 0:
             break;
         default:
-            printf("\nOpï¿½ï¿½o invï¿½lida!\n");
+            printf("\nOpção inválida!\n");
             break;
         }
     } while (opcao != 0);
@@ -488,7 +504,7 @@ void buscaEquipe(Modalidades *d, char *nome, char *nome2)
     }
     if (atual == NULL)
     {
-        printf("\nEssa modalidade nï¿½o estï¿½ registrada.\n");
+        printf("\nEssa modalidade não está registrada.\n");
         return;
     }
 
@@ -502,21 +518,27 @@ void buscaEquipe(Modalidades *d, char *nome, char *nome2)
     }
     if (atual2 == NULL)
     {
-        printf("\nEssa equipe nï¿½o estï¿½ registrada nesta modalidade.\n");
+        printf("\nEssa equipe não está registrada nesta modalidade.\n");
         return;
     }
 
-    printf("\n\nInformaï¿½ï¿½es da equipe: ");
+    printf("\n\nInformações da equipe: ");
     printf("\nNome: %s", atual2->nome);
     printf("\nCidade de origem: %s", atual2->cidade);
-    printf("\nAno de fundaï¿½ï¿½o: %d", atual2->ano);
-    printf("\nQuantidade de tï¿½tulos: %d\n", atual2->titulos);
+    printf("\nAno de fundação: %d", atual2->ano);
+    printf("\nQuantidade de títulos: %d\n", atual2->titulos);
 }
 
-void ordEquipesAno(Modalidades *d, int ord) // ord = 0 -> Crescente   ord = 1 -> Decrescente
+void ordEquipesAno(Modalidades *d, int ord) // ord = 1 -> Crescente   ord = 2 -> Decrescente
 {
     int tam = quantEquipes(d);
     int i = 0;
+
+    if (d->quantidade == 0)
+    {
+        printf("\nLista vazia!\n");
+        return;
+    }
 
     if (tam == 0)
     {
@@ -545,7 +567,7 @@ void ordEquipesAno(Modalidades *d, int ord) // ord = 0 -> Crescente   ord = 1 ->
 
     bubbleSort(eqs, tam);
 
-    if (ord == 1)
+    if (ord == 2)
     {
         inverterArray(eqs, tam);
     }
@@ -607,7 +629,7 @@ void contabilizarEquipesPorModalidade(Modalidades *d)
     printf("\n==============================================\n");
 }
 
-int ehPrimeiraOcorrencia(Modalidades *d, NoModalidades *modLimite, NoEquipes *eqLimite, char *nome)
+int ehPrimeiraOcorrencia(Modalidades *d, NoModalidades *modLimite, NoEquipes *eqLimite, char *nome, int op)
 {
     NoModalidades *atual = d->inicio;
     while (atual != NULL)
@@ -619,9 +641,19 @@ int ehPrimeiraOcorrencia(Modalidades *d, NoModalidades *modLimite, NoEquipes *eq
             {
                 return 1;
             }
-            if (strcmp(atualEq->nome, nome) == 0)
+            if (op)
             {
-                return 0;
+                if (strcmp(atualEq->nome, nome) == 0)
+                {
+                    return 0;
+                }
+            }
+            else
+            {
+                if (strcmp(atualEq->cidade, nome) == 0)
+                {
+                    return 0;
+                }
             }
             atualEq = atualEq->prox;
         }
@@ -649,7 +681,7 @@ void identificarEquipesMultiModalidade(Modalidades *d)
 
         while (atualEq != NULL)
         {
-            if (ehPrimeiraOcorrencia(d, atual, atualEq, atualEq->nome))
+            if (ehPrimeiraOcorrencia(d, atual, atualEq, atualEq->nome, 1))
             {
                 int contModalidades = 0;
                 NoModalidades *modBusca = d->inicio;
@@ -697,7 +729,7 @@ void gerarRelatorio(Modalidades *d)
         return;
     }
 
-    printf("\n========== RELATÓRIO GERAL ==========\n");
+    printf("\n=========== RELATÓRIO GERAL ===========\n");
 
     // Número de modalidades
     printf("\nModalidades cadastradas: %d", d->quantidade);
@@ -709,6 +741,7 @@ void gerarRelatorio(Modalidades *d)
     NoEquipes *equipeMaisNova = NULL;
     NoEquipes *equipeMaisTitulos = NULL;
     NoModalidades *modalidadeMaisEquipes = NULL;
+    NoModalidades *modalidadeMenosEquipes = NULL;
 
     // guarda a modalidade correspondente de cada equipe extrema
     NoModalidades *modDaMaisVelha = NULL;
@@ -720,6 +753,9 @@ void gerarRelatorio(Modalidades *d)
     {
         if (modalidadeMaisEquipes == NULL || atual->quantidade > modalidadeMaisEquipes->quantidade)
             modalidadeMaisEquipes = atual;
+
+        if (modalidadeMenosEquipes == NULL || atual->quantidade < modalidadeMenosEquipes->quantidade)
+            modalidadeMenosEquipes = atual;
 
         NoEquipes *atualEq = atual->inicio;
         while (atualEq != NULL)
@@ -759,6 +795,9 @@ void gerarRelatorio(Modalidades *d)
     if (modalidadeMaisEquipes != NULL)
         printf("\nModalidade com mais equipes: %s (%d equipes)", modalidadeMaisEquipes->nome, modalidadeMaisEquipes->quantidade);
 
+    if (modalidadeMenosEquipes != NULL)
+        printf("\nModalidade com menos equipes: %s (%d equipes)", modalidadeMenosEquipes->nome, modalidadeMenosEquipes->quantidade);
+
     // Equipe com mais aparições em modalidades diferentes
     NoEquipes *equipeMaisFrequente = NULL;
     int maiorContagem = 0;
@@ -769,7 +808,7 @@ void gerarRelatorio(Modalidades *d)
         NoEquipes *atualEq = atual->inicio;
         while (atualEq != NULL)
         {
-            if (ehPrimeiraOcorrencia(d, atual, atualEq, atualEq->nome))
+            if (ehPrimeiraOcorrencia(d, atual, atualEq, atualEq->nome, 1))
             {
                 int contModalidades = 0;
                 NoModalidades *modBusca = d->inicio;
@@ -821,7 +860,7 @@ void gerarRelatorio(Modalidades *d)
         NoEquipes *atualEq = atual->inicio;
         while (atualEq != NULL)
         {
-            if (ehPrimeiraOcorrencia(d, atual, atualEq, atualEq->cidade))
+            if (ehPrimeiraOcorrencia(d, atual, atualEq, atualEq->cidade, 0))
             {
                 printf("\n  - %s", atualEq->cidade);
             }
@@ -830,5 +869,64 @@ void gerarRelatorio(Modalidades *d)
         atual = atual->prox;
     }
 
-    printf("\n======================================\n");
+    printf("\n========================================\n");
+}
+
+void carregarEquipesArquivo(Modalidades *d, char *nomeArquivo, char *modalidade)
+{
+    FILE *arquivo;
+    char linha[150];
+    char nome[50], cidade[50];
+    int ano, titulos;
+
+    if (d == NULL)
+    {
+        printf("\nLista inexistente!\n");
+        return;
+    }
+
+    arquivo = fopen(nomeArquivo, "r");
+
+    if (arquivo == NULL)
+    {
+        printf("\nErro ao abrir o arquivo!\n");
+        return;
+    }
+
+    while (fgets(linha, 150, arquivo) != NULL)
+    {
+        linha[strcspn(linha, "\n")] = '\0';
+
+        if (strlen(linha) == 0)
+            continue;
+
+        // Espera-se o formato: nome;cidade;ano;titulos
+        int lidos = sscanf(linha, "%49[^;];%49[^;];%d;%d", nome, cidade, &ano, &titulos);
+
+        if (lidos != 4)
+        {
+            printf("\nLinha mal formatada, ignorada: %s\n", linha);
+            continue;
+        }
+
+        NoEquipes *molde;
+        if (criarNoEquipes(&molde))
+        {
+            printf("\nErro ao alocar equipe, linha ignorada: %s\n", linha);
+            continue;
+        }
+
+        strcpy(molde->nome, nome);
+        strcpy(molde->cidade, cidade);
+        molde->ano = ano;
+        molde->titulos = titulos;
+
+        inserirEquipe(molde, modalidade, d);
+
+        free(molde); // inserirEquipe já copiou os dados para um nó novo
+    }
+
+    fclose(arquivo);
+
+    printf("\nEquipes inseridas!\n");
 }
