@@ -76,7 +76,6 @@ void inserirModalidade(Modalidades *d, char *nome)
         d->inicio = novo;
     }
     d->quantidade++;
-    printf("\nModalidade inserida!\n");
 }
 
 int quantModalidades(Modalidades *d)
@@ -260,7 +259,6 @@ void inserirEquipe(NoEquipes *no, char *modal, Modalidades *d)
         printf("\nModalidade inexistente!\n");
         return;
     }
-    printf("\nEquipe inserida!\n");
 }
 
 int quantEquipes(Modalidades *d)
@@ -365,7 +363,10 @@ void listarEquipes(Modalidades *d, char *nome)
     NoEquipes *atual2 = atual->inicio;
     while (atual2 != NULL)
     {
-        printf("\nEquipe %d: %s.", i, atual2->nome);
+        printf("\nEquipe %d: %s", i, atual2->nome);
+        printf("\n  - Cidade de origem: %s", atual2->cidade);
+        printf("\n  - Ano de fundacao: %d", atual2->ano);
+        printf("\n  - Titulos: %d", atual2->titulos);
         i++;
         atual2 = atual2->prox;
     }
@@ -495,6 +496,33 @@ void buscaEquipe(Modalidades *d, char *nome, char *nome2)
     printf("\nQuantidade de títulos: %d\n", atual2->titulos);
 }
 
+void bubbleSort(NoEquipesfunc eqs[], int tam) // Ordena as equipes das mais velhas para as mais novas
+{
+    for (int i = 0; i < tam - 1; i++)
+    {
+        for (int j = 0; j < tam - 1 - i; j++)
+        {
+            if (eqs[j].ano > eqs[j + 1].ano)
+            {
+                // Troca as structs inteiras (nome + ano)
+                NoEquipesfunc temp = eqs[j];
+                eqs[j] = eqs[j + 1];
+                eqs[j + 1] = temp;
+            }
+        }
+    }
+}
+
+void inverterArray(NoEquipesfunc eqs[], int tam) // Para ordenacao decrescente
+{
+    for (int i = 0; i < tam / 2; i++)
+    {
+        NoEquipesfunc temp = eqs[i];
+        eqs[i] = eqs[tam - 1 - i];
+        eqs[tam - 1 - i] = temp;
+    }
+}
+
 void ordEquipesAno(Modalidades *d, int ord) // ord = 1 -> Crescente   ord = 2 -> Decrescente
 {
     int tam = quantEquipes(d);
@@ -543,33 +571,6 @@ void ordEquipesAno(Modalidades *d, int ord) // ord = 1 -> Crescente   ord = 2 ->
         printf("\n%d. %s Ano: %d", j + 1, eqs[j].nome, eqs[j].ano);
     }
     printf("\n");
-}
-
-void bubbleSort(NoEquipesfunc eqs[], int tam) // Ordena as equipes das mais velhas para as mais novas
-{
-    for (int i = 0; i < tam - 1; i++)
-    {
-        for (int j = 0; j < tam - 1 - i; j++)
-        {
-            if (eqs[j].ano > eqs[j + 1].ano)
-            {
-                // Troca as structs inteiras (nome + ano)
-                NoEquipesfunc temp = eqs[j];
-                eqs[j] = eqs[j + 1];
-                eqs[j + 1] = temp;
-            }
-        }
-    }
-}
-
-void inverterArray(NoEquipesfunc eqs[], int tam) // Para ordenacao decrescente
-{
-    for (int i = 0; i < tam / 2; i++)
-    {
-        NoEquipesfunc temp = eqs[i];
-        eqs[i] = eqs[tam - 1 - i];
-        eqs[tam - 1 - i] = temp;
-    }
 }
 
 void contabilizarEquipesPorModalidade(Modalidades *d)
@@ -838,7 +839,7 @@ void gerarRelatorio(Modalidades *d)
     printf("\n========================================\n");
 }
 
-void carregarEquipesArquivo(Modalidades *d, char *nomeArquivo)
+void carregarArquivo(Modalidades *d, char *nomeArquivo)
 {
     FILE *arquivo;
     char linha[150];
