@@ -263,40 +263,6 @@ void inserirEquipe(NoEquipes *no, char *modal, Modalidades *d)
     printf("\nEquipe inserida!\n");
 }
 
-void carregarModalidadesArquivo(Modalidades *d, char *nomeArquivo)
-{
-    FILE *arquivo;
-    char nome[50];
-
-    if (d == NULL)
-    {
-        printf("\nLista inexistente!\n");
-        return;
-    }
-
-    arquivo = fopen(nomeArquivo, "r");
-
-    if (arquivo == NULL)
-    {
-        printf("\nErro ao abrir o arquivo!\n");
-        return;
-    }
-
-    while (fgets(nome, 50, arquivo) != NULL)
-    {
-        nome[strcspn(nome, "\n")] = '\0';
-
-        if (strlen(nome) > 0)
-        {
-            inserirModalidade(d, nome);
-        }
-    }
-
-    fclose(arquivo);
-
-    printf("\nModalidades inseridas!\n");
-}
-
 int quantEquipes(Modalidades *d)
 {
     if (d->quantidade == 0)
@@ -872,11 +838,12 @@ void gerarRelatorio(Modalidades *d)
     printf("\n========================================\n");
 }
 
-void carregarEquipesArquivo(Modalidades *d, char *nomeArquivo, char *modalidade)
+void carregarEquipesArquivo(Modalidades *d, char *nomeArquivo)
 {
     FILE *arquivo;
     char linha[150];
     char nome[50], cidade[50];
+    char modalidadeAtual[50];
     int ano, titulos;
 
     if (d == NULL)
@@ -900,33 +867,98 @@ void carregarEquipesArquivo(Modalidades *d, char *nomeArquivo, char *modalidade)
         if (strlen(linha) == 0)
             continue;
 
-        // Espera-se o formato: nome;cidade;ano;titulos
-        int lidos = sscanf(linha, "%49[^;];%49[^;];%d;%d", nome, cidade, &ano, &titulos);
-
-        if (lidos != 4)
+        // Linha de modalidade: formato [Nome]
+        if (linha[0] == '[')
         {
-            printf("\nLinha mal formatada, ignorada: %s\n", linha);
+            strncpy(modalidadeAtual, linha + 1, strlen(linha) - 2);
+            modalidadeAtual[strlen(linha) - 2] = '\0';
+
+            inserirModalidade(d, modalidadeAtual);
             continue;
         }
+
+        // Linha de equipe: formato nome;cidade;ano;titulos
+        sscanf(linha, "%49[^;];%49[^;];%d;%d", nome, cidade, &ano, &titulos);
 
         NoEquipes *molde;
-        if (criarNoEquipes(&molde))
-        {
-            printf("\nErro ao alocar equipe, linha ignorada: %s\n", linha);
-            continue;
-        }
+        criarNoEquipes(&molde);
 
         strcpy(molde->nome, nome);
         strcpy(molde->cidade, cidade);
         molde->ano = ano;
         molde->titulos = titulos;
 
-        inserirEquipe(molde, modalidade, d);
+        inserirEquipe(molde, modalidadeAtual, d);
 
         free(molde); // inserirEquipe já copiou os dados para um nó novo
     }
 
     fclose(arquivo);
 
-    printf("\nEquipes inseridas!\n");
+    printf("\nModalidades e equipes inseridas!\n");
+}
+
+void filtarEquipesPorTitulo(Modalidades *d, int titulos)
+{
+    setlocale(LC_ALL, "");
+
+    if (d == NULL || d->quantidade == 0)
+    {
+        printf("\nNão há modalidades cadastradas ainda.\n");
+        return;
+    }
+
+    NoModalidades *atual = d->inicio;
+    NoEquipes *atualEq;
+
+    printf("\nEquipes com %d títulos:\n", titulos);
+    while (atual != NULL)
+    {
+        atualEq = atual->inicio;
+        while (atualEq != NULL)
+        {
+            if (atualEq->titulos == titulos)
+            {
+                printf("\n-  %s %s", atualEq->nome, atual->nome);
+            }
+            atualEq = atualEq->prox;
+        }
+        atual = atual->prox;
+    }
+    printf("\n");
+}
+
+void liberarEquipes(NoEquipes *inicio)
+{
+    NoEquipes *atual = inicio;
+    NoEquipes *proximo;
+
+    while (atual != NULL)
+    {
+        proximo = atual->prox;
+        free(atual);
+        atual = proximo;
+    }
+}
+
+void liberarModalidades(Modalidades **d)
+{
+    if (d == NULL || *d == NULL)
+    {
+        return;
+    }
+
+    NoModalidades *atual = (*d)->inicio;
+    NoModalidades *proximo;
+
+    while (atual != NULL)
+    {
+        proximo = atual->prox;
+        liberarEquipes(atual->inicio);
+        free(atual);
+        atual = proximo;
+    }
+
+    free(*d);
+    *d = NULL;
 }

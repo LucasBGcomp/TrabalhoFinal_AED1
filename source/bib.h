@@ -10,7 +10,6 @@ void listarModalidades(Modalidades *d);
 void removerModalidade(Modalidades *d, char *nome);
 void altNomeModalidade(Modalidades *d, char *nomeAnt, char *nomeNovo);
 void buscarModalidade(Modalidades *d, char *nome);
-void carregarModalidadesArquivo(Modalidades *d, char *nomeArquivo);
 void inserirEquipe(NoEquipes *no, char *modal, Modalidades *d);
 void removerEquipe(Modalidades *d, char *nomeEq, char *nomeMod);
 int quantEquipes(Modalidades *d);
@@ -21,5 +20,7 @@ void ordEquipesAno(Modalidades *d, int ord);
 void contabilizarEquipesPorModalidade(Modalidades *d);
 void identificarEquipesMultiModalidade(Modalidades *d);
 void gerarRelatorio(Modalidades *d);
-void carregarEquipesArquivo(Modalidades *d, char *nomeArquivo, char *modalidade);
+void carregarArquivo(Modalidades *d, char *nomeArquivo);
+void filtarEquipesPorTitulo(Modalidades *d, int titulos);
+void liberarModalidades(Modalidades **d);
 #endif

@@ -1,0 +1,41 @@
+[Futebol]
+Palmeiras;Sao Paulo;1914;12
+Flamengo;Rio de Janeiro;1895;9
+Real Madrid;Madrid;1902;36
+Bayern de Munique;Munique;1900;35
+Manchester United;Manchester;1878;20
+
+[Volei]
+Sada Cruzeiro;Betim;2006;10
+Minas;Belo Horizonte;1935;7
+Trentino;Trento;2000;6
+Modena;Modena;1966;12
+Praia Clube;Uberlandia;1935;2
+
+[Basquete]
+Flamengo;Rio de Janeiro;1895;7
+Franca;Franca;1959;5
+Boston Celtics;Boston;1946;18
+Los Angeles Lakers;Los Angeles;1947;17
+Golden State Warriors;Sao Francisco;1946;7
+
+[Handebol]
+THW Kiel;Kiel;1923;23
+Barcelona;Barcelona;1942;33
+Paris Saint-Germain;Paris;1941;13
+Montpellier;Montpellier;1982;14
+Flensburg-Handewitt;Flensburg;1990;3
+
+[Hoquei]
+Montreal Canadiens;Montreal;1909;24
+Toronto Maple Leafs;Toronto;1917;13
+Detroit Red Wings;Detroit;1926;11
+Boston Bruins;Boston;1924;6
+Chicago Blackhawks;Chicago;1926;6
+
+[Beisebol]
+New York Yankees;Nova Iorque;1901;27
+St. Louis Cardinals;St. Louis;1882;11
+Boston Red Sox;Boston;1901;9
+Los Angeles Dodgers;Los Angeles;1883;9
+San Francisco Giants;Sao Francisco;1883;8
