@@ -22,5 +22,5 @@ void identificarEquipesMultiModalidade(Modalidades *d);
 void gerarRelatorio(Modalidades *d);
 void carregarArquivo(Modalidades *d, char *nomeArquivo);
 void filtarEquipesPorTitulo(Modalidades *d, int titulos);
-void liberarModalidades(Modalidades **d);
+void liberarLista(Modalidades **d);
 #endif

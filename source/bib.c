@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "bib.h"
-#include <locale.h>
 
 typedef struct noEquipesfunc
 { // Usado na ordEquipesAno
@@ -333,8 +332,6 @@ void removerEquipe(Modalidades *d, char *nomeEq, char *nomeMod)
 
 void listarEquipes(Modalidades *d, char *nome)
 {
-    setlocale(LC_ALL, "");
-
     if (d->quantidade == 0)
     {
         printf("\nLista vazia.\n");
@@ -349,13 +346,13 @@ void listarEquipes(Modalidades *d, char *nome)
 
     if (atual == NULL)
     {
-        printf("\nEssa modalidade não existe.\n");
+        printf("\nEssa modalidade nao existe.\n");
         return;
     }
 
     if (atual->quantidade == 0)
     {
-        printf("\nNão há equipes nesta modalidade.\n");
+        printf("\nNao ha equipes nesta modalidade.\n");
         return;
     }
 
@@ -375,7 +372,6 @@ void listarEquipes(Modalidades *d, char *nome)
 void altDadoEquipe(Modalidades *d, char *nome, char *nome2)
 {
     NoModalidades *atual = d->inicio;
-    setlocale(LC_ALL, "");
 
     if (d->quantidade != 0)
     {
@@ -386,7 +382,7 @@ void altDadoEquipe(Modalidades *d, char *nome, char *nome2)
     }
     if (atual == NULL)
     {
-        printf("\nEssa modalidade não está registrada.\n");
+        printf("\nEssa modalidade nao esta registrada.\n");
         return;
     }
 
@@ -400,18 +396,18 @@ void altDadoEquipe(Modalidades *d, char *nome, char *nome2)
     }
     if (atual2 == NULL)
     {
-        printf("\nEssa equipe não está registrada nesta modalidade.\n");
+        printf("\nEssa equipe nao esta registrada nesta modalidade.\n");
         return;
     }
 
     int opcao;
     do
     {
-        printf("\nQual dado desta equipe você deseja alterar?\n");
+        printf("\nQual dado desta equipe voce deseja alterar?\n");
         printf("\n1: Nome");
         printf("\n2: Cidade de origem");
-        printf("\n3: Ano de fundação");
-        printf("\n4: Quantidade de títulos");
+        printf("\n3: Ano de fundacao");
+        printf("\n4: Quantidade de titulos");
         printf("\n0: Encerrar\n\n");
         scanf("%d", &opcao);
         switch (opcao)
@@ -435,7 +431,7 @@ void altDadoEquipe(Modalidades *d, char *nome, char *nome2)
         case 3:
         {
             int novoAno;
-            printf("\nDigite o novo ano de fundação da equipe: ");
+            printf("\nDigite o novo ano de fundacao da equipe: ");
             scanf("%d", &novoAno);
             atual2->ano = novoAno;
             break;
@@ -443,7 +439,7 @@ void altDadoEquipe(Modalidades *d, char *nome, char *nome2)
         case 4:
         {
             int novaQuant;
-            printf("\nAltere a quantidade de títulos da equipe: ");
+            printf("\nAltere a quantidade de titulos da equipe: ");
             scanf("%d", &novaQuant);
             atual2->titulos = novaQuant;
             break;
@@ -451,7 +447,7 @@ void altDadoEquipe(Modalidades *d, char *nome, char *nome2)
         case 0:
             break;
         default:
-            printf("\nOpção inválida!\n");
+            printf("\nOpcao invalida!\n");
             break;
         }
     } while (opcao != 0);
@@ -459,7 +455,6 @@ void altDadoEquipe(Modalidades *d, char *nome, char *nome2)
 
 void buscaEquipe(Modalidades *d, char *nome, char *nome2)
 {
-    setlocale(LC_ALL, "");
     NoModalidades *atual = d->inicio;
 
     if (d->quantidade != 0)
@@ -471,7 +466,7 @@ void buscaEquipe(Modalidades *d, char *nome, char *nome2)
     }
     if (atual == NULL)
     {
-        printf("\nEssa modalidade não está registrada.\n");
+        printf("\nEssa modalidade nao esta registrada.\n");
         return;
     }
 
@@ -485,15 +480,15 @@ void buscaEquipe(Modalidades *d, char *nome, char *nome2)
     }
     if (atual2 == NULL)
     {
-        printf("\nEssa equipe não está registrada nesta modalidade.\n");
+        printf("\nEssa equipe nao esta registrada nesta modalidade.\n");
         return;
     }
 
-    printf("\n\nInformações da equipe: ");
+    printf("\n\nInformacoes da equipe: ");
     printf("\nNome: %s", atual2->nome);
     printf("\nCidade de origem: %s", atual2->cidade);
-    printf("\nAno de fundação: %d", atual2->ano);
-    printf("\nQuantidade de títulos: %d\n", atual2->titulos);
+    printf("\nAno de fundacao: %d", atual2->ano);
+    printf("\nQuantidade de titulos: %d\n", atual2->titulos);
 }
 
 void bubbleSort(NoEquipesfunc eqs[], int tam) // Ordena as equipes das mais velhas para as mais novas
@@ -631,11 +626,9 @@ int ehPrimeiraOcorrencia(Modalidades *d, NoModalidades *modLimite, NoEquipes *eq
 
 void identificarEquipesMultiModalidade(Modalidades *d)
 {
-    setlocale(LC_ALL, "");
-
     if (d == NULL || d->quantidade == 0)
     {
-        printf("\nAinda não há nenhuma modalidade cadastrada.\n");
+        printf("\nAinda nao ha nenhuma modalidade cadastrada.\n");
         return;
     }
 
@@ -670,7 +663,7 @@ void identificarEquipesMultiModalidade(Modalidades *d)
 
                 if (contModalidades > 1) // Se a equipe aparece mais de uma vez
                 {
-                    printf("\nEquipe \"%s\" está associada a %d modalidades diferentes.", atualEq->nome, contModalidades);
+                    printf("\nEquipe \"%s\" esta associada a %d modalidades diferentes.", atualEq->nome, contModalidades);
                     encontrouAlguma = 1;
                 }
             }
@@ -682,26 +675,24 @@ void identificarEquipesMultiModalidade(Modalidades *d)
 
     if (!encontrouAlguma) // Se nenhuma equipe se repete
     {
-        printf("\nNenhuma equipe está associada a mais de uma modalidade.\n");
+        printf("\nNenhuma equipe esta associada a mais de uma modalidade.\n");
     }
 }
 
 void gerarRelatorio(Modalidades *d)
 {
-    setlocale(LC_ALL, "");
-
     if (d == NULL || d->quantidade == 0)
     {
-        printf("\nNão há modalidades cadastradas ainda.\n");
+        printf("\nNao ha modalidades cadastradas ainda.\n");
         return;
     }
 
-    printf("\n=========== RELATÓRIO GERAL ===========\n");
+    printf("\n=========== RELATORIO GERAL ===========\n");
 
-    // Número de modalidades
+    // Numero de modalidades
     printf("\nModalidades cadastradas: %d", d->quantidade);
 
-    // Número total de equipes (soma de todas as modalidades)
+    // Numero total de equipes (soma de todas as modalidades)
     printf("\nEquipes cadastradas: %d\n", quantEquipes(d));
 
     NoEquipes *equipeMaisVelha = NULL;
@@ -757,7 +748,7 @@ void gerarRelatorio(Modalidades *d)
         printf("\nEquipe mais nova: %s (fundada em %d, modalidade: %s)", equipeMaisNova->nome, equipeMaisNova->ano, modDaMaisNova->nome);
 
     if (equipeMaisTitulos != NULL)
-        printf("\nEquipe com mais títulos: %s (%d títulos, modalidade: %s)", equipeMaisTitulos->nome, equipeMaisTitulos->titulos, modDaMaisTitulos->nome);
+        printf("\nEquipe com mais titulos: %s (%d titulos, modalidade: %s)", equipeMaisTitulos->nome, equipeMaisTitulos->titulos, modDaMaisTitulos->nome);
 
     if (modalidadeMaisEquipes != NULL)
         printf("\nModalidade com mais equipes: %s (%d equipes)", modalidadeMaisEquipes->nome, modalidadeMaisEquipes->quantidade);
@@ -765,7 +756,7 @@ void gerarRelatorio(Modalidades *d)
     if (modalidadeMenosEquipes != NULL)
         printf("\nModalidade com menos equipes: %s (%d equipes)", modalidadeMenosEquipes->nome, modalidadeMenosEquipes->quantidade);
 
-    // Equipe com mais aparições em modalidades diferentes
+    // Equipe com mais aparicoes em modalidades diferentes
     NoEquipes *equipeMaisFrequente = NULL;
     int maiorContagem = 0;
 
@@ -806,7 +797,7 @@ void gerarRelatorio(Modalidades *d)
     }
 
     if (equipeMaisFrequente != NULL && maiorContagem > 1)
-        printf("\nEquipe com mais aparições em modalidades diferentes: %s (%d modalidades)", equipeMaisFrequente->nome, maiorContagem);
+        printf("\nEquipe com mais aparicoes em modalidades diferentes: %s (%d modalidades)", equipeMaisFrequente->nome, maiorContagem);
     else
         printf("\nNenhuma equipe aparece em mais de uma modalidade.");
 
@@ -819,7 +810,7 @@ void gerarRelatorio(Modalidades *d)
         atual = atual->prox;
     }
 
-    // Listar cidades das equipes, sem repetição
+    // Listar cidades das equipes, sem repeticao
     printf("\n\nCidades de origem das equipes:");
     atual = d->inicio;
     while (atual != NULL)
@@ -891,7 +882,7 @@ void carregarArquivo(Modalidades *d, char *nomeArquivo)
 
         inserirEquipe(molde, modalidadeAtual, d);
 
-        free(molde); // inserirEquipe já copiou os dados para um nó novo
+        free(molde); // inserirEquipe ja copiou os dados para um no novo
     }
 
     fclose(arquivo);
@@ -901,18 +892,16 @@ void carregarArquivo(Modalidades *d, char *nomeArquivo)
 
 void filtarEquipesPorTitulo(Modalidades *d, int titulos)
 {
-    setlocale(LC_ALL, "");
-
     if (d == NULL || d->quantidade == 0)
     {
-        printf("\nNão há modalidades cadastradas ainda.\n");
+        printf("\nNao ha modalidades cadastradas ainda.\n");
         return;
     }
 
     NoModalidades *atual = d->inicio;
     NoEquipes *atualEq;
 
-    printf("\nEquipes com %d títulos:\n", titulos);
+    printf("\nEquipes com %d titulos:\n", titulos);
     while (atual != NULL)
     {
         atualEq = atual->inicio;
@@ -942,7 +931,7 @@ void liberarEquipes(NoEquipes *inicio)
     }
 }
 
-void liberarModalidades(Modalidades **d)
+void liberarLista(Modalidades **d)
 {
     if (d == NULL || *d == NULL)
     {
