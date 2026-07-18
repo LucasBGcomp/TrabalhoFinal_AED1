@@ -38,14 +38,77 @@ int main()
 
         switch (opcao)
         {
-        case 1:
-        case 2:
+        case 1: {
+            char nomeMod[50];
+            printf("\nDigite o nome da modalidade: ");
+            scanf(" %49[^\n]", nomeMod);
+            setbuf(stdin, NULL);
+            inserirModalidade(lista, nomeMod);
+            break;
+        }
+        case 2: {
+            char nomeMod[50], nomeEq[50], cidade[50];
+            int ano, titulos;
+            printf("\nDigite o nome da modalidade da equipe: ");
+            scanf(" %49[^\n]", nomeMod);
+            setbuf(stdin, NULL);
+            printf("\nDigite o nome da equipe: ");
+            scanf(" %49[^\n]", nomeEq);
+            setbuf(stdin, NULL);
+            printf("\nDigite o nome da cidade de fundação da equipe: ");
+            scanf(" %49[^\n]", cidade);
+            setbuf(stdin, NULL);
+            printf("\nDigite o ano de fundação da equipe: ");
+            scanf("%d", &ano);
+            printf("\nDigite o número de títulos da equipe: ");
+            scanf("%d", &titulos);
+            inserirEquipe(lista, nomeMod, nomeEq, cidade, ano, titulos);
+            break;
+        }
         case 3:
-        case 4:
-        case 5:
-        case 6:
-        case 7:
-        case 8:
+            listarModalidades(lista);
+            break;
+        case 4: {
+            char nomeMod[50];
+            printf("\nDigite o nome da modalidade: ");
+            scanf(" %49[^\n]", nomeMod);
+            setbuf(stdin, NULL);
+            listarEquipes(lista, nomeMod);
+        }
+        case 5: {
+            char nomeMod[50];
+            printf("\nDigite o nome da modalidade a ser removida: ");
+            scanf(" %49[^\n]", nomeMod);
+            setbuf(stdin, NULL);
+            removerModalidade(lista, nomeMod);
+        }
+        case 6: {
+            char nomeMod[50], nomeEq[50];
+            printf("\nDigite o nome da modalidade da equipe a ser removida: ");
+            scanf(" %49[^\n]", nomeMod);
+            setbuf(stdin, NULL);
+            printf("\nDigite o nome da equipe a ser removida: ");
+            scanf(" %49[^\n]", nomeEq);
+            setbuf(stdin, NULL);
+            removerEquipe(lista, nomeEq, nomeMod);
+        }
+        case 7: {
+            char nomeMod[50];
+            printf("\nDigite o nome da modalidade: ");
+            scanf(" %49[^\n]", nomeMod);
+            setbuf(stdin, NULL);
+            buscarModalidade(lista, nomeMod);
+        }
+        case 8: {
+            char nomeMod[50], nomeEq[50];
+            printf("\nDigite o nome da modalidade: ");
+            scanf(" %49[^\n]", nomeMod);
+            setbuf(stdin, NULL);
+            printf("\nDigite o nome da equipe: ");
+            scanf(" %49[^\n]", nomeEq);
+            setbuf(stdin, NULL);
+            buscaEquipe(lista, nomeMod, nomeEq);
+        }
         case 9:
         case 10:
         case 11:

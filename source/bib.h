@@ -10,7 +10,7 @@ void listarModalidades(Modalidades *d);
 void removerModalidade(Modalidades *d, char *nome);
 void altNomeModalidade(Modalidades *d, char *nomeAnt, char *nomeNovo);
 void buscarModalidade(Modalidades *d, char *nome);
-void inserirEquipe(NoEquipes *no, char *modal, Modalidades *d);
+void inserirEquipe(Modalidades *d, char *modal, char *nome, char *cidade, int ano, int titulos);
 void removerEquipe(Modalidades *d, char *nomeEq, char *nomeMod);
 int quantEquipes(Modalidades *d);
 void listarEquipes(Modalidades *d, char *nome);

@@ -75,6 +75,7 @@ void inserirModalidade(Modalidades *d, char *nome)
         d->inicio = novo;
     }
     d->quantidade++;
+    printf("\nModalidade Inserida!\n");
 }
 
 int quantModalidades(Modalidades *d)
@@ -94,10 +95,10 @@ void listarModalidades(Modalidades *d)
     printf("\n====MODALIDADES====\n");
     while (atual != NULL)
     {
-        printf("\n%s\n", atual->nome);
+        printf("\n%s", atual->nome);
         atual = atual->prox;
     }
-    printf("\n===================\n");
+    printf("\n\n===================\n");
 }
 
 void removerModalidade(Modalidades *d, char *nome)
@@ -135,6 +136,7 @@ void removerModalidade(Modalidades *d, char *nome)
         atual->prox->ant = atual->ant;
     }
 
+    liberarEquipes(atual->inicio);
     free(atual);
     d->quantidade--;
 
@@ -184,12 +186,12 @@ void buscarModalidade(Modalidades *d, char *nome)
     {
         if (strcmp(nome, atual->nome) == 0)
         {
-            printf("\nModalidade encontrada!\n");
+            printf("\nModalidade cadastrada!\n");
             return;
         }
         atual = atual->prox;
     }
-    printf("\nModalidade inexistente.\n");
+    printf("\nModalidade nao cadastrada!\n");
 }
 
 int criarNoEquipes(NoEquipes **novo)
@@ -203,7 +205,7 @@ int criarNoEquipes(NoEquipes **novo)
     return 0; // Sucesso
 }
 
-void inserirEquipe(NoEquipes *no, char *modal, Modalidades *d)
+void inserirEquipe(Modalidades *d, char *modal, char *nome, char *cidade, int ano, int titulos)
 {
     NoEquipes *novo;
     if (criarNoEquipes(&novo))
@@ -212,10 +214,10 @@ void inserirEquipe(NoEquipes *no, char *modal, Modalidades *d)
         return;
     }
 
-    novo->ano = no->ano;
-    novo->titulos = no->titulos;
-    strcpy(novo->nome, no->nome);
-    strcpy(novo->cidade, no->cidade);
+    novo->ano = ano;
+    novo->titulos = titulos;
+    strcpy(novo->nome, nome);
+    strcpy(novo->cidade, cidade);
 
     int achou = 0;
     NoModalidades *atual = d->inicio;
@@ -252,6 +254,8 @@ void inserirEquipe(NoEquipes *no, char *modal, Modalidades *d)
     if (achou == 1)
     {
         atual->quantidade++;
+        printf("\nEquipe inserida!\n");
+        return;
     }
     else
     {
@@ -367,6 +371,7 @@ void listarEquipes(Modalidades *d, char *nome)
         i++;
         atual2 = atual2->prox;
     }
+    printf("\n");
 }
 
 void altDadoEquipe(Modalidades *d, char *nome, char *nome2)
@@ -459,14 +464,14 @@ void buscaEquipe(Modalidades *d, char *nome, char *nome2)
 
     if (d->quantidade != 0)
     {
-        while (atual != NULL && (strcmp(atual->nome, nome)))
+        while (atual != NULL && (strcmp(atual->nome, nome) != 0))
         {
             atual = atual->prox;
         }
     }
     if (atual == NULL)
     {
-        printf("\nEssa modalidade nao esta registrada.\n");
+        printf("\nModalidade nao cadastrada!\n");
         return;
     }
 
@@ -474,7 +479,7 @@ void buscaEquipe(Modalidades *d, char *nome, char *nome2)
         return;
 
     NoEquipes *atual2 = atual->inicio;
-    while (atual2 != NULL && (strcmp(atual2->nome, nome2)))
+    while (atual2 != NULL && (strcmp(atual2->nome, nome2) != 0))
     {
         atual2 = atual2->prox;
     }
@@ -484,11 +489,11 @@ void buscaEquipe(Modalidades *d, char *nome, char *nome2)
         return;
     }
 
-    printf("\n\nInformacoes da equipe: ");
-    printf("\nNome: %s", atual2->nome);
-    printf("\nCidade de origem: %s", atual2->cidade);
-    printf("\nAno de fundacao: %d", atual2->ano);
-    printf("\nQuantidade de titulos: %d\n", atual2->titulos);
+    printf("\nInformacoes da equipe: ");
+    printf("\n  Nome: %s", atual2->nome);
+    printf("\n  Cidade de origem: %s", atual2->cidade);
+    printf("\n  Ano de fundacao: %d", atual2->ano);
+    printf("\n  Quantidade de titulos: %d\n", atual2->titulos);
 }
 
 void bubbleSort(NoEquipesfunc eqs[], int tam) // Ordena as equipes das mais velhas para as mais novas
@@ -872,17 +877,7 @@ void carregarArquivo(Modalidades *d, char *nomeArquivo)
         // Linha de equipe: formato nome;cidade;ano;titulos
         sscanf(linha, "%49[^;];%49[^;];%d;%d", nome, cidade, &ano, &titulos);
 
-        NoEquipes *molde;
-        criarNoEquipes(&molde);
-
-        strcpy(molde->nome, nome);
-        strcpy(molde->cidade, cidade);
-        molde->ano = ano;
-        molde->titulos = titulos;
-
-        inserirEquipe(molde, modalidadeAtual, d);
-
-        free(molde); // inserirEquipe ja copiou os dados para um no novo
+        inserirEquipe(d, modalidadeAtual, nome, cidade, ano, titulos);
     }
 
     fclose(arquivo);
