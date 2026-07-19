@@ -150,13 +150,13 @@ void altNomeModalidade(Modalidades *d, char *nomeAnt, char *nomeNovo)
         printf("\nLista vazia.\n");
     }
     NoModalidades *atual = d->inicio;
-    int k = 0;
+    int achou = 0;
 
     while (atual != NULL)
     {
         if (strcmp(atual->nome, nomeAnt) == 0)
         {
-            k = 1;
+            achou = 1;
             break;
         }
         else
@@ -165,7 +165,7 @@ void altNomeModalidade(Modalidades *d, char *nomeAnt, char *nomeNovo)
         }
     }
 
-    if (k)
+    if (achou)
     {
         strcpy(atual->nome, nomeNovo);
         printf("\nNome alterado!\n");
@@ -413,7 +413,8 @@ void altDadoEquipe(Modalidades *d, char *nome, char *nome2)
         printf("\n2: Cidade de origem");
         printf("\n3: Ano de fundacao");
         printf("\n4: Quantidade de titulos");
-        printf("\n0: Encerrar\n\n");
+        printf("\n0: Encerrar\n");
+        printf("\nOpcao: ");
         scanf("%d", &opcao);
         switch (opcao)
         {

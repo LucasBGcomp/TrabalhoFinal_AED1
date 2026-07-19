@@ -74,6 +74,7 @@ int main()
             scanf(" %49[^\n]", nomeMod);
             setbuf(stdin, NULL);
             listarEquipes(lista, nomeMod);
+            break;
         }
         case 5: {
             char nomeMod[50];
@@ -81,6 +82,7 @@ int main()
             scanf(" %49[^\n]", nomeMod);
             setbuf(stdin, NULL);
             removerModalidade(lista, nomeMod);
+            break;
         }
         case 6: {
             char nomeMod[50], nomeEq[50];
@@ -91,6 +93,7 @@ int main()
             scanf(" %49[^\n]", nomeEq);
             setbuf(stdin, NULL);
             removerEquipe(lista, nomeEq, nomeMod);
+            break;
         }
         case 7: {
             char nomeMod[50];
@@ -98,6 +101,7 @@ int main()
             scanf(" %49[^\n]", nomeMod);
             setbuf(stdin, NULL);
             buscarModalidade(lista, nomeMod);
+            break;
         }
         case 8: {
             char nomeMod[50], nomeEq[50];
@@ -108,11 +112,36 @@ int main()
             scanf(" %49[^\n]", nomeEq);
             setbuf(stdin, NULL);
             buscaEquipe(lista, nomeMod, nomeEq);
+            break;
         }
-        case 9:
-        case 10:
+        case 9: {
+            char nomeAnt[50], nomeNovo[50];
+            printf("\nDigite o nome da modalidade: ");
+            scanf(" %49[^\n]", nomeAnt);
+            setbuf(stdin, NULL);
+            printf("\nDigite o novo nome da modalidade: ");
+            scanf(" %49[^\n]", nomeNovo);
+            setbuf(stdin, NULL);
+            altNomeModalidade(lista, nomeAnt, nomeNovo);
+            break;
+        }
+        case 10: {
+            char nomeMod[50], nomeEq[50];
+            printf("\nDigite o nome da modalidade: ");
+            scanf(" %49[^\n]", nomeMod);
+            setbuf(stdin, NULL);
+            printf("\nDigite o nome da equipe: ");
+            scanf(" %49[^\n]", nomeEq);
+            setbuf(stdin, NULL);
+            altDadoEquipe(lista, nomeMod, nomeEq);
+            break;
+        }
         case 11:
+            printf("\nNúmero de modalidades cadastradas: %d\n", quantModalidades(lista));
+            break;
         case 12:
+            printf("\nNúmero de equipes cadastradas: %d\n", quantEquipes(lista));
+            break;
         case 13:
         {
             int opcao2;
