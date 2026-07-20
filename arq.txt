@@ -1,23 +1,23 @@
 [Futebol]
-Palmeiras;Sao Paulo;1914;12
-Flamengo;Rio de Janeiro;1895;9
-Real Madrid;Madrid;1902;36
-Bayern de Munique;Munique;1900;35
-Manchester United;Manchester;1878;20
+Palmeiras;Sao Paulo;1914;60
+Flamengo;Rio de Janeiro;1895;80
+Real Madrid;Madrid;1902;135
+Bayern de Munique;Munique;1900;87
+Manchester United;Manchester;1878;70
 
 [Volei]
-Sada Cruzeiro;Betim;2006;10
-Minas;Belo Horizonte;1935;7
-Trentino;Trento;2000;6
-Modena;Modena;1966;12
-Praia Clube;Uberlandia;1935;2
+Sada Cruzeiro;Betim;2006;66
+Minas;Belo Horizonte;1935;41
+Trentino;Trento;2000;21
+Modena;Modena;1966;42
+Praia Clube;Uberlandia;1935;23
 
 [Basquete]
-Flamengo;Rio de Janeiro;1895;7
-Franca;Franca;1959;5
-Boston Celtics;Boston;1946;18
-Los Angeles Lakers;Los Angeles;1947;17
-Golden State Warriors;Sao Francisco;1946;7
+Flamengo;Rio de Janeiro;1895;76
+Franca;Franca;1959;60
+Boston Celtics;Boston;1946;65
+Los Angeles Lakers;Los Angeles;1947;75
+Golden State Warriors;Sao Francisco;1946;26
 
 [Handebol]
 THW Kiel;Kiel;1923;23

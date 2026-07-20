@@ -75,7 +75,6 @@ void inserirModalidade(Modalidades *d, char *nome)
         d->inicio = novo;
     }
     d->quantidade++;
-    printf("\nModalidade Inserida!\n");
 }
 
 int quantModalidades(Modalidades *d)
@@ -99,6 +98,19 @@ void listarModalidades(Modalidades *d)
         atual = atual->prox;
     }
     printf("\n\n===================\n");
+}
+
+void liberarEquipes(NoEquipes *inicio)
+{
+    NoEquipes *atual = inicio;
+    NoEquipes *proximo;
+
+    while (atual != NULL)
+    {
+        proximo = atual->prox;
+        free(atual);
+        atual = proximo;
+    }
 }
 
 void removerModalidade(Modalidades *d, char *nome)
@@ -254,7 +266,6 @@ void inserirEquipe(Modalidades *d, char *modal, char *nome, char *cidade, int an
     if (achou == 1)
     {
         atual->quantidade++;
-        printf("\nEquipe inserida!\n");
         return;
     }
     else
@@ -882,8 +893,6 @@ void carregarArquivo(Modalidades *d, char *nomeArquivo)
     }
 
     fclose(arquivo);
-
-    printf("\nModalidades e equipes inseridas!\n");
 }
 
 void filtarEquipesPorTitulo(Modalidades *d, int titulos)
@@ -896,8 +905,9 @@ void filtarEquipesPorTitulo(Modalidades *d, int titulos)
 
     NoModalidades *atual = d->inicio;
     NoEquipes *atualEq;
+    int acc = 0;
 
-    printf("\nEquipes com %d titulos:\n", titulos);
+    printf("\nEquipe(s) com %d titulos:\n", titulos);
     while (atual != NULL)
     {
         atualEq = atual->inicio;
@@ -905,26 +915,18 @@ void filtarEquipesPorTitulo(Modalidades *d, int titulos)
         {
             if (atualEq->titulos == titulos)
             {
+                acc++;
                 printf("\n-  %s %s", atualEq->nome, atual->nome);
             }
             atualEq = atualEq->prox;
         }
         atual = atual->prox;
     }
-    printf("\n");
-}
-
-void liberarEquipes(NoEquipes *inicio)
-{
-    NoEquipes *atual = inicio;
-    NoEquipes *proximo;
-
-    while (atual != NULL)
+    if (acc == 0)
     {
-        proximo = atual->prox;
-        free(atual);
-        atual = proximo;
+        printf("\nNao encontrada!");
     }
+    printf("\n");
 }
 
 void liberarLista(Modalidades **d)

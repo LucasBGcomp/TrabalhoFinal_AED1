@@ -38,7 +38,8 @@ int main()
 
         switch (opcao)
         {
-        case 1: {
+        case 1:
+        {
             char nomeMod[50];
             printf("\nDigite o nome da modalidade: ");
             scanf(" %49[^\n]", nomeMod);
@@ -46,7 +47,8 @@ int main()
             inserirModalidade(lista, nomeMod);
             break;
         }
-        case 2: {
+        case 2:
+        {
             char nomeMod[50], nomeEq[50], cidade[50];
             int ano, titulos;
             printf("\nDigite o nome da modalidade da equipe: ");
@@ -68,7 +70,8 @@ int main()
         case 3:
             listarModalidades(lista);
             break;
-        case 4: {
+        case 4:
+        {
             char nomeMod[50];
             printf("\nDigite o nome da modalidade: ");
             scanf(" %49[^\n]", nomeMod);
@@ -76,7 +79,8 @@ int main()
             listarEquipes(lista, nomeMod);
             break;
         }
-        case 5: {
+        case 5:
+        {
             char nomeMod[50];
             printf("\nDigite o nome da modalidade a ser removida: ");
             scanf(" %49[^\n]", nomeMod);
@@ -84,7 +88,8 @@ int main()
             removerModalidade(lista, nomeMod);
             break;
         }
-        case 6: {
+        case 6:
+        {
             char nomeMod[50], nomeEq[50];
             printf("\nDigite o nome da modalidade da equipe a ser removida: ");
             scanf(" %49[^\n]", nomeMod);
@@ -95,7 +100,8 @@ int main()
             removerEquipe(lista, nomeEq, nomeMod);
             break;
         }
-        case 7: {
+        case 7:
+        {
             char nomeMod[50];
             printf("\nDigite o nome da modalidade: ");
             scanf(" %49[^\n]", nomeMod);
@@ -103,7 +109,8 @@ int main()
             buscarModalidade(lista, nomeMod);
             break;
         }
-        case 8: {
+        case 8:
+        {
             char nomeMod[50], nomeEq[50];
             printf("\nDigite o nome da modalidade: ");
             scanf(" %49[^\n]", nomeMod);
@@ -114,7 +121,8 @@ int main()
             buscaEquipe(lista, nomeMod, nomeEq);
             break;
         }
-        case 9: {
+        case 9:
+        {
             char nomeAnt[50], nomeNovo[50];
             printf("\nDigite o nome da modalidade: ");
             scanf(" %49[^\n]", nomeAnt);
@@ -125,7 +133,8 @@ int main()
             altNomeModalidade(lista, nomeAnt, nomeNovo);
             break;
         }
-        case 10: {
+        case 10:
+        {
             char nomeMod[50], nomeEq[50];
             printf("\nDigite o nome da modalidade: ");
             scanf(" %49[^\n]", nomeMod);
@@ -160,10 +169,31 @@ int main()
                 switch (opcao2)
                 {
                 case 1:
+                {
+                    int op;
+                    printf("\n1. Ordenação Crescente   2. Ordenação Decrescente\n");
+                    printf("\nOpção: ");
+                    scanf("%d", &op);
+                    ordEquipesAno(lista, op);
+                    break;
+                }
                 case 2:
+                    contabilizarEquipesPorModalidade(lista);
+                    break;
                 case 3:
+                    identificarEquipesMultiModalidade(lista);
+                    break;
                 case 4:
+                {
+                    int titulos;
+                    printf("\nDigite o número de títulos: ");
+                    scanf("%d", &titulos);
+                    filtarEquipesPorTitulo(lista, titulos);
+                    break;
+                }
                 case 5:
+                    gerarRelatorio(lista);
+                    break;
                 case 0:
                     break;
                 default:
