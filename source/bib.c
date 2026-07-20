@@ -580,7 +580,7 @@ void ordEquipesAno(Modalidades *d, int ord) // ord = 1 -> Crescente   ord = 2 ->
 
     for (int j = 0; j < tam; j++)
     {
-        printf("\n%d. %s Ano: %d", j + 1, eqs[j].nome, eqs[j].ano);
+        printf("\n%d. %s (%d)", j + 1, eqs[j].nome, eqs[j].ano);
     }
     printf("\n");
 }
@@ -680,7 +680,7 @@ void identificarEquipesMultiModalidade(Modalidades *d)
 
                 if (contModalidades > 1) // Se a equipe aparece mais de uma vez
                 {
-                    printf("\nEquipe \"%s\" esta associada a %d modalidades diferentes.", atualEq->nome, contModalidades);
+                    printf("\nEquipe \"%s\" esta associada a %d modalidades diferentes.\n", atualEq->nome, contModalidades);
                     encontrouAlguma = 1;
                 }
             }
@@ -844,7 +844,7 @@ void gerarRelatorio(Modalidades *d)
         atual = atual->prox;
     }
 
-    printf("\n========================================\n");
+    printf("\n\n========================================\n");
 }
 
 void carregarArquivo(Modalidades *d, char *nomeArquivo)
