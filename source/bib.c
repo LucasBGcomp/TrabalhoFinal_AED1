@@ -916,7 +916,7 @@ void filtarEquipesPorTitulo(Modalidades *d, int titulos)
             if (atualEq->titulos == titulos)
             {
                 acc++;
-                printf("\n-  %s %s", atualEq->nome, atual->nome);
+                printf("\n-  %s (%s)", atualEq->nome, atual->nome);
             }
             atualEq = atualEq->prox;
         }

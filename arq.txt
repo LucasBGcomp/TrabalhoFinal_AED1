@@ -20,11 +20,11 @@ Los Angeles Lakers;Los Angeles;1947;75
 Golden State Warriors;Sao Francisco;1946;26
 
 [Handebol]
-THW Kiel;Kiel;1923;23
-Barcelona;Barcelona;1942;33
-Paris Saint-Germain;Paris;1941;13
-Montpellier;Montpellier;1982;14
-Flensburg-Handewitt;Flensburg;1990;3
+THW Kiel;Kiel;1923;58
+Barcelona;Barcelona;1942;171
+Paris Saint-Germain;Paris;1941;27
+Montpellier;Montpellier;1982;39
+Flensburg-Handewitt;Flensburg;1990;17
 
 [Hoquei]
 Montreal Canadiens;Montreal;1909;24
