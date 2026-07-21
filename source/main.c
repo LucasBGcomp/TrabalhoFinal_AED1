@@ -31,9 +31,9 @@ int main()
         printf("\n10. Alterar dados de Equipe");
         printf("\n11. Quantidade de Modalidades");
         printf("\n12. Quantidade de Equipes");
-        printf("\n13. Operações de Consulta");
+        printf("\n13. Operaï¿½ï¿½es de Consulta");
         printf("\n0. Sair");
-        printf("\n\nOpção: ");
+        printf("\n\nOpï¿½ï¿½o: ");
         scanf("%d", &opcao);
 
         switch (opcao)
@@ -57,12 +57,12 @@ int main()
             printf("\nDigite o nome da equipe: ");
             scanf(" %49[^\n]", nomeEq);
             setbuf(stdin, NULL);
-            printf("\nDigite o nome da cidade de fundação da equipe: ");
+            printf("\nDigite o nome da cidade de fundaï¿½ï¿½o da equipe: ");
             scanf(" %49[^\n]", cidade);
             setbuf(stdin, NULL);
-            printf("\nDigite o ano de fundação da equipe: ");
+            printf("\nDigite o ano de fundaï¿½ï¿½o da equipe: ");
             scanf("%d", &ano);
-            printf("\nDigite o número de títulos da equipe: ");
+            printf("\nDigite o nï¿½mero de tï¿½tulos da equipe: ");
             scanf("%d", &titulos);
             inserirEquipe(lista, nomeMod, nomeEq, cidade, ano, titulos);
             break;
@@ -146,24 +146,24 @@ int main()
             break;
         }
         case 11:
-            printf("\nNúmero de modalidades cadastradas: %d\n", quantModalidades(lista));
+            printf("\nNï¿½mero de modalidades cadastradas: %d\n", quantModalidades(lista));
             break;
         case 12:
-            printf("\nNúmero de equipes cadastradas: %d\n", quantEquipes(lista));
+            printf("\nNï¿½mero de equipes cadastradas: %d\n", quantEquipes(lista));
             break;
         case 13:
         {
             int opcao2;
             do
             {
-                printf("\n======== OPERAÇÕES DE CONSULTA ========\n");
+                printf("\n======== OPERAï¿½ï¿½ES DE CONSULTA ========\n");
                 printf("\n1. Ordenar Equipes por Ano");
-                printf("\n2. Número de Equipes por Modalidade");
+                printf("\n2. Nï¿½mero de Equipes por Modalidade");
                 printf("\n3. Equipes Multimodalidade");
-                printf("\n4. Filtrar Equipes por Títulos");
-                printf("\n5. Gerar Relatório");
+                printf("\n4. Filtrar Equipes por Tï¿½tulos");
+                printf("\n5. Gerar Relatï¿½rio");
                 printf("\n0. Voltar");
-                printf("\n\nOpção: ");
+                printf("\n\nOpï¿½ï¿½o: ");
                 scanf("%d", &opcao2);
 
                 switch (opcao2)
@@ -171,8 +171,8 @@ int main()
                 case 1:
                 {
                     int op;
-                    printf("\n1. Ordenação Crescente   2. Ordenação Decrescente\n");
-                    printf("\nOpção: ");
+                    printf("\n1. Ordenaï¿½ï¿½o Crescente   2. Ordenaï¿½ï¿½o Decrescente\n");
+                    printf("\nOpï¿½ï¿½o: ");
                     scanf("%d", &op);
                     ordEquipesAno(lista, op);
                     break;
@@ -186,7 +186,7 @@ int main()
                 case 4:
                 {
                     int titulos;
-                    printf("\nDigite o número de títulos: ");
+                    printf("\nDigite o nï¿½mero de tï¿½tulos: ");
                     scanf("%d", &titulos);
                     filtarEquipesPorTitulo(lista, titulos);
                     break;
@@ -197,14 +197,15 @@ int main()
                 case 0:
                     break;
                 default:
-                    printf("\nOpção Inválida!\n");
+                    printf("\nOpï¿½ï¿½o Invï¿½lida!\n");
                 }
             } while (opcao2 != 0);
+            break;
         }
         case 0:
             break;
         default:
-            printf("\nOpção Inválida!\n");
+            printf("\nOpï¿½ï¿½o Invï¿½lida!\n");
         }
     } while (opcao != 0);
 
