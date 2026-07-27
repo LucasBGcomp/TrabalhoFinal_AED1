@@ -33,7 +33,7 @@ void inserirModalidade(Modalidades *d, char *nome)
     {
         if (strcmp(atual->nome, nome) == 0)
         {
-            printf("\nJa existe uma modalidade com esse nome!\n");
+            printf("\nModalidade ja cadastrada!\n");
             return;
         }
         atual = atual->prox;
