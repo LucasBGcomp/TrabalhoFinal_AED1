@@ -64,7 +64,7 @@ void inserirEquipe(Modalidades *d, char *modal, char *nome, char *cidade, int an
     {
         if (strcmp(atualEq->nome, nome) == 0)
         {
-            printf("\nJa existe uma equipe com esse nome nessa modalidade!\n");
+            printf("\nEquipe ja cadastrada nessa modalidade!\n");
             return;
         }
         atualEq = atualEq->prox;
