@@ -131,8 +131,10 @@ void removerEquipe(Modalidades *d, char *nomeEq, char *nomeMod)
     }
     else
     {
-        if (atual->quantidade == 0)
+        if (atual->quantidade == 0){
             printf("\nSem equipes nessa modalidade.\n");
+            return;
+        }
         NoEquipes *atualEQ = atual->inicio;
         while (atualEQ != NULL && strcmp(atualEQ->nome, nomeEq) != 0)
         {
