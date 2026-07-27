@@ -28,6 +28,17 @@ int criarNoModalidades(NoModalidades **novo)
 
 void inserirModalidade(Modalidades *d, char *nome)
 {
+    NoModalidades *atual = d->inicio;
+    while (atual != NULL)
+    {
+        if (strcmp(atual->nome, nome) == 0)
+        {
+            printf("\nJa existe uma modalidade com esse nome!\n");
+            return;
+        }
+        atual = atual->prox;
+    }
+
     NoModalidades *novo;
     if (criarNoModalidades(&novo))
     {

@@ -35,6 +35,41 @@ int criarNoEquipes(NoEquipes **novo)
 
 void inserirEquipe(Modalidades *d, char *modal, char *nome, char *cidade, int ano, int titulos)
 {
+    if (d->quantidade == 0)
+    {
+        printf("\nLista vazia!\n");
+        return;
+    }
+
+    int achouModalidade = 0;
+    NoModalidades *atual = d->inicio;
+    while (atual != NULL)
+    {
+        if (strcmp(modal, atual->nome) == 0)
+        {
+            achouModalidade = 1;
+            break;
+        }
+        atual = atual->prox;
+    }
+
+    if (!achouModalidade)
+    {
+        printf("\nModalidade inexistente!\n");
+        return;
+    }
+
+    NoEquipes *atualEq = atual->inicio;
+    while (atualEq != NULL)
+    {
+        if (strcmp(atualEq->nome, nome) == 0)
+        {
+            printf("\nJa existe uma equipe com esse nome nessa modalidade!\n");
+            return;
+        }
+        atualEq = atualEq->prox;
+    }
+
     NoEquipes *novo;
     if (criarNoEquipes(&novo))
     {
@@ -47,54 +82,23 @@ void inserirEquipe(Modalidades *d, char *modal, char *nome, char *cidade, int an
     strcpy(novo->nome, nome);
     strcpy(novo->cidade, cidade);
 
-    int achou = 0;
-    NoModalidades *atual = d->inicio;
-    if (d->quantidade != 0)
+    if (atual->quantidade == 0)
     {
-        while (atual != NULL)
-        {
-            if (strcmp(modal, atual->nome) == 0)
-            {
-                achou = 1;
-                if (atual->quantidade == 0)
-                {
-                    atual->inicio = novo;
-                }
-                else
-                {
-                    novo->prox = atual->inicio;
-                    novo->prox->ant = novo;
-                    atual->inicio = novo;
-                }
-                break;
-            }
-            else
-            {
-                atual = atual->prox;
-            }
-        }
+        atual->inicio = novo;
     }
     else
     {
-        printf("\nLista vazia!\n");
-        return;
+        novo->prox = atual->inicio;
+        novo->prox->ant = novo;
+        atual->inicio = novo;
     }
-    if (achou == 1)
-    {
-        atual->quantidade++;
-        return;
-    }
-    else
-    {
-        printf("\nModalidade inexistente!\n");
-        return;
-    }
+    atual->quantidade++;
 }
 
 int quantEquipes(Modalidades *d)
 {
     if (d->quantidade == 0)
-        return 1; // Lista vazia
+        return 0; // Lista vazia
 
     NoModalidades *atual = d->inicio;
     int acc = 0;
