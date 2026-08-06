@@ -3,6 +3,7 @@
 #include <string.h>
 #include "modalidades.h"
 #include "equipes.h"
+#include "estruturas.h"
 
 void inicializarListaP(Modalidades **d)
 {

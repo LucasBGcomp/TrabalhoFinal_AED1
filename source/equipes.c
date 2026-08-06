@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "equipes.h"
+#include "estruturas.h"
 
 typedef struct noEquipesfunc
 {

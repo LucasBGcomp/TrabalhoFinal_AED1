@@ -2,6 +2,7 @@
 #include <string.h>
 #include "consultas.h"
 #include "equipes.h"
+#include "estruturas.h"
 
 void contabilizarEquipesPorModalidade(Modalidades *d)
 {

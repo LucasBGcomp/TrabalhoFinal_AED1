@@ -1,7 +1,7 @@
 #ifndef EQUIPES_H
 #define EQUIPES_H
 
-#include "estruturas.h"
+typedef struct noEquipes NoEquipes;
 
 void inserirEquipe(Modalidades *d, char *modal, char *nome, char *cidade, int ano, int titulos);
 void removerEquipe(Modalidades *d, char *nomeEq, char *nomeMod);

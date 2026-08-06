@@ -1,7 +1,8 @@
 #ifndef MODALIDADES_H
 #define MODALIDADES_H
 
-#include "estruturas.h"
+typedef struct modalidades Modalidades;
+typedef struct noModalidades NoModalidades;
 
 void inicializarListaP(Modalidades **d);
 void inserirModalidade(Modalidades *d, char *nome);

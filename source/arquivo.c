@@ -3,6 +3,7 @@
 #include "arquivo.h"
 #include "modalidades.h"
 #include "equipes.h"
+#include "estruturas.h"
 
 void carregarArquivo(Modalidades *d, char *nomeArquivo)
 {
